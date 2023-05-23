@@ -8,8 +8,11 @@
     "overrides": [
     ],
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "rules": {
+        "linebreak-style": ["error", "windows"],
+        "comma-dangle": ["error", "never"]
     }
 }
