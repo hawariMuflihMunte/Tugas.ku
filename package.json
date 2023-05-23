@@ -51,6 +51,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.7",
     "bootstrap": "^5.2.3",
+    "http-server": "^14.1.1",
     "regenerator-runtime": "^0.13.11",
     "workbox-window": "^6.5.4"
   }
