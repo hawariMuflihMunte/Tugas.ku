@@ -7,7 +7,13 @@
     "start:prod": "webpack --config webpack.prod.js",
     "start:dev": "webpack-dev-server --config webpack.dev.js"
   },
-  "keywords": [],
+  "keywords": [
+    "Tugas.ku",
+    "Task Management App",
+    "Schedule Management App",
+    "Task & Schedule Management App",
+    "Schedule & Task Management App"
+  ],
   "author": "C23-M4014",
   "license": "ISC",
   "repository": {
