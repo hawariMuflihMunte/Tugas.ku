@@ -4,6 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -48,6 +49,14 @@ module.exports = {
     ]
   },
   plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/assets'),
+          to: path.resolve(__dirname, 'dist/')
+        }
+      ]
+    }),
     new HtmlWebpackPlugin({
       title: 'Tugas.ku',
       template: './src/index.html',

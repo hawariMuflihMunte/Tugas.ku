@@ -3,6 +3,8 @@ const {merge} = require('webpack-merge');
 const common = require('./webpack.common');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
@@ -29,10 +31,11 @@ module.exports = merge(common, {
     })
   ],
   optimization: {
+    minimize: true,
     splitChunks: {
       chunks: 'all',
-      minSize: 20000,
-      maxSize: 150000,
+      minSize: 10000,
+      maxSize: 90000,
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
@@ -49,6 +52,9 @@ module.exports = merge(common, {
           reuseExistingChunk: true
         }
       }
-    }
+    },
+    minimizer: [
+      new CssMinimizerPlugin()
+    ]
   }
 });
