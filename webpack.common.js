@@ -1,9 +1,9 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const autoprefixer = require('autoprefixer')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
@@ -12,7 +12,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    clean: true
   },
   module: {
     rules: [
@@ -24,7 +24,10 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader
           },
           {
-            // Interprets '@import' and `url()` like `import/require()` and will resolve them
+            /*
+            Interprets '@import' and `url()` like `import/require()`
+            and will resolve them
+            */
             loader: 'css-loader'
           },
           {
@@ -41,6 +44,18 @@ module.exports = {
             loader: 'sass-loader'
           }
         ]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        ]
       }
     ]
   },
@@ -53,4 +68,4 @@ module.exports = {
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin()
   ]
-}
+};
