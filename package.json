@@ -4,12 +4,15 @@
   "version": "1.0.0",
   "main": "webpack.common.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "start-dev": "webpack-dev-server --config webpack.dev.js"
+    "start:prod": "webpack --config webpack.prod.js",
+    "start:dev": "webpack-dev-server --config webpack.dev.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "C23-M4014",
   "license": "ISC",
+  "repository": {
+    "url": "https://github.com/hawariMuflihMunte/Tugas.ku.git"
+  },
   "devDependencies": {
     "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
