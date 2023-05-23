@@ -6,8 +6,10 @@
   "scripts": {
     "start:prod": "webpack --config webpack.prod.js",
     "start:dev": "webpack-dev-server --config webpack.dev.js",
-    "start:lint": "npx eslint /src",
-    "start:lint-fix": "npx eslint /src --fix"
+    "lint:check": "npx eslint /src",
+    "lint:fix": "npx eslint /src --fix",
+    "serve": "http-server /dist",
+    "serve:prod": "npm run start:prod && http-server /dist"
   },
   "keywords": [
     "Tugas.ku",
