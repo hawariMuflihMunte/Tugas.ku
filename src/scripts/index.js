@@ -1,5 +1,6 @@
-import '../stylesheet/styles.scss'
+import '../stylesheet/styles.scss';
 
-import * as bootstrap from 'bootstrap'
+// eslint-disable-next-line no-unused-vars
+import * as bootstrap from 'bootstrap';
 
-console.log('Tugas.ku')
+console.log('Tugas.ku');
