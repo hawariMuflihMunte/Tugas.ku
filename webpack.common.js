@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const autoprefixer = require('autoprefixer')
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
 module.exports = {
   entry: {
     app: path.resolve(__dirname, './src/scripts/index.js')
@@ -18,8 +20,8 @@ module.exports = {
         test: /\.(s[ac]ss)$/i,
         use: [
           {
-            // Adds CSS to the DOM by injecting a `<style>` tag
-            loader: 'style-loader'
+            // Extracts CSS for each JS file that include CSS
+            loader: MiniCssExtractPlugin.loader
           },
           {
             // Interprets '@import' and `url()` like `import/require()` and will resolve them
@@ -48,6 +50,7 @@ module.exports = {
       template: './src/index.html',
       minify: true
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin()
   ]
 }
