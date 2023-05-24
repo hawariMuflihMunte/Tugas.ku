@@ -7,7 +7,7 @@ import routes from '../routes/routes';
  */
 class App {
   /**
-   * @param {string} app
+   * @param {HTMLElement} app
    * Place your HTMLElement here. ex: document.getElementById('app').
    */
   constructor({
