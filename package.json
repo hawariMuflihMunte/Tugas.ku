@@ -8,8 +8,8 @@
     "start:dev": "webpack-dev-server --config webpack.dev.js",
     "lint:check": "npx eslint /src",
     "lint:fix": "npx eslint /src --fix",
-    "serve": "http-server /dist",
-    "serve:prod": "npm run start:prod && http-server /dist"
+    "serve": "http-server ./dist",
+    "serve:prod": "npm run start:prod && npm run serve"
   },
   "keywords": [
     "Tugas.ku",
