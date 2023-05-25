@@ -1,4 +1,6 @@
 .material-symbols-sharp {
+  display: flex;
+  place-content: center;
   font-variation-settings:
     'FILL' 1,
     'wght' 400,
