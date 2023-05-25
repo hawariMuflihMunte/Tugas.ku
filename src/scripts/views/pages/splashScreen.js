@@ -11,6 +11,16 @@ const SplashScreen = {
         <a href="/#/dashboard" class="btn btn-primary">Dashboard</a>
       </div>
     `;
+  },
+
+  async next() {
+    console.log('%cWelcome to Tugas.ku :D', `
+      padding: 0 4px;
+      border-radius: 4px;
+      background-color: yellow;
+      color: blue;
+      font-size: 16px;
+    `.trim());
   }
 };
 
