@@ -43,6 +43,7 @@ const Dashboard = {
         </section>
         <section>
           <h2>Task</h2>
+          <hr>
 
           <!-- Add Task -->
           <div
