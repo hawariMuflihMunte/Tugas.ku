@@ -1,7 +1,9 @@
 import Dashboard from '../views/pages/dashboard';
+import SplashScreen from '../views/pages/splashScreen';
 
 const routes = {
-  '/': Dashboard,
+  '/': SplashScreen,
+  '/splash': SplashScreen,
   '/dashboard': Dashboard
 };
 
