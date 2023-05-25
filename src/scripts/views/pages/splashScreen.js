@@ -10,7 +10,7 @@ const SplashScreen = {
         />
         <a href="/#/dashboard" class="btn btn-primary">Dashboard</a>
       </div>
-    `;
+    `.trim();
   },
 
   async next() {
