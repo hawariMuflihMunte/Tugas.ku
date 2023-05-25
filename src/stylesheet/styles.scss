@@ -25,8 +25,8 @@ button {
   border: 0;
 }
 
-a,
-button {
+a:not([class*="btn"]),
+button:not([class*="btn"]) {
   display: inline-flex;
   place-content: center;
   place-items: center;
@@ -65,7 +65,7 @@ main {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10000;
+  z-index: 1000;
   
   border-bottom: 1px solid;
 
