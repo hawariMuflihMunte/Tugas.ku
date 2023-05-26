@@ -59,15 +59,23 @@ main {
   font-weight: bold;
 }
 
-// Card Benefit
+//container
+h1, p, .btn {
+  color: var(--text);
+}
+
+// Benefit
+
 
 .benefit h1{
+  color: var(--text);
   font-weight: 600;
   font-size: 38px;
   line-height: 57px;
 }
 
 .benefit .card{
+  color: var(--text);
   box-shadow: 9px 12px 20px rgba(126, 126, 126, 0.32);
   border-radius: 16px;
   border: none;
@@ -80,6 +88,7 @@ main {
 }
 
 .benefit .card p{
+  color: var(--text);
   font-weight: 400;
   font-size: 14px;
   line-height: 27px;
