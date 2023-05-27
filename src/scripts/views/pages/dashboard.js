@@ -1,3 +1,5 @@
+import data from '../../data/data';
+
 const Dashboard = {
   async render() {
     return `
@@ -35,10 +37,10 @@ const Dashboard = {
           <button
             type="button"
             class="btn btn-warning"
-            title="add task">
-            <span class="material-symbols-sharp"
+            title="add task"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal">add</span>
+            data-bs-target="#exampleModal">
+            <span class="material-symbols-sharp">add</span>
           </button>
         </section>
         <section>
@@ -119,6 +121,29 @@ const Dashboard = {
   },
 
   async next() {
+    const createCard = (data) => {
+      /**
+       * @param {Object} data Pass object data
+       * @return HTMLElement
+       */
+      const {
+        title,
+        description,
+        dueDate
+      } = data;
+
+      const cardContainer = document.createElement('div');
+
+      cardContainer.innerHTML = `
+        <h3>${title}</h3>
+        <p>${description}</p>
+        <p>${dueDate}</p>
+        
+      `;
+
+      return cardContainer;
+    };
+
     const navDrawerButton = document.querySelector('.open');
 
     navDrawerButton.addEventListener('click', (event) => {
@@ -126,6 +151,24 @@ const Dashboard = {
       document.querySelector('.navigation__drawer')
           .classList.toggle('open__drawer');
     });
+
+    const taskList = document.querySelector('#task-list');
+
+    taskList.addEventListener('render', (event) => {
+      document.getElementById('task-list').innerHTML = '';
+
+      const rawData = localStorage.getItem('demo');
+      const _data = JSON.parse(rawData);
+      console.log(_data);
+
+      _data.forEach((data) => {
+        const card = createCard(data);
+
+        document.getElementById('task-list').appendChild(card);
+      });
+    });
+
+    taskList.dispatchEvent(new Event('render'));
 
     const addTaskForm = document.querySelector('#add-task');
 
@@ -137,43 +180,47 @@ const Dashboard = {
       const dueDate = document.querySelector('#due-date');
 
       if (title.value === '' || title.value === null) {
-        alert('Title is empty. Can\tt proceed');
+        alert('Title is empty. Can\'t proceed');
+
+        document.getElementById('cancel-add-task')
+            .dispatchEvent(new Event('click'));
+
+        return false;
       }
 
       if (dueDate.value === '' || dueDate.value === null) {
-        alert('Due Date is empty. Can\tt proceed');
+        alert('Due Date is empty. Can\'t proceed');
+
+        document.getElementById('cancel-add-task')
+            .dispatchEvent(new Event('click'));
+
+        return false;
       }
 
-      const createCard = (data) => {
-        const {
-          title,
-          description,
-          dueDate
-        } = data;
-
-        const cardContainer = document.createElement('div');
-
-        cardContainer.innerHTML = `
-          <h3>${title}</h3>
-          <p>${description}</p>
-          <p>${dueDate}</p>
-        `;
-
-        return cardContainer;
-      };
-
-      const data = {
+      const _data = {
         title: title.value,
         description: description.value,
         dueDate: dueDate.value
       };
 
-      const card = createCard(data);
+      data.push(_data);
 
-      document.getElementById('task-list').append(card);
+      if (typeof (Storage) !== 'undefined') {
+        localStorage.setItem('demo', JSON.stringify(data));
+      }
+
+      const card = createCard(_data);
+
+      document.getElementById('task-list').appendChild(card);
 
       document.getElementById('cancel-add-task')
           .dispatchEvent(new Event('click'));
+
+      addTaskForm.reset();
+
+      taskList.dispatchEvent(new Event('render'));
+
+      return true;
     });
   }
 };
