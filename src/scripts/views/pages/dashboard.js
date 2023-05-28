@@ -1,12 +1,5 @@
 import data from '../../data/data';
 
-import {
-  defineComponents,
-  IgcCircularProgressComponent
-} from 'igniteui-webcomponents';
-
-// import 'igniteui-webcomponents/themes/dark/fluent.css';
-
 defineComponents(IgcCircularProgressComponent);
 
 const Dashboard = {
