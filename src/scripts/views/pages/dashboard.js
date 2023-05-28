@@ -1,5 +1,14 @@
 import data from '../../data/data';
 
+import {
+  defineComponents,
+  IgcCircularProgressComponent
+} from 'igniteui-webcomponents';
+
+// import 'igniteui-webcomponents/themes/dark/fluent.css';
+
+defineComponents(IgcCircularProgressComponent);
+
 const Dashboard = {
   async render() {
     return `
@@ -124,7 +133,7 @@ const Dashboard = {
     const createCard = (data) => {
       /**
        * @param {Object} data Pass object data
-       * @return HTMLElement
+       * @return {HTMLElement}
        */
       const {
         title,
@@ -133,13 +142,94 @@ const Dashboard = {
       } = data;
 
       const cardContainer = document.createElement('div');
+      cardContainer.classList.add('card__custom');
 
-      cardContainer.innerHTML = `
-        <h3>${title}</h3>
-        <p>${description}</p>
-        <p>${dueDate}</p>
-        
-      `;
+      const style = document.createElement('style');
+      style.textContent = `
+        .card__custom {
+          display: flex;
+          align-items: center;
+          border: 1px solid;
+          border-radius: 4px;
+          padding: 6px 2px;
+        }
+
+        @media (max-width: 576px) {
+          .card__custom {
+            flex-direction: column;
+          }
+        }
+
+        .progress {
+          position: relative;
+          height: 50px;
+          width: 50px;
+          border-radius: 50%;
+          background: conic-gradient(blue 3.6deg, #ededed 0deg);
+          display: flex;
+          place-content: center;
+          place-items: center;
+          margin: 6px;
+        }
+      
+        .progress::before {
+          content: "";
+          position: absolute;
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          background-color: white;
+        }
+      
+        .progress .progress__value {
+          position: relative;
+          font-weight: 600;
+          color: blue;
+        }
+      `.trim();
+      cardContainer.appendChild(style);
+
+      const _title = document.createElement('h3');
+      _title.textContent = title;
+      cardContainer.appendChild(_title);
+
+      const _description = document.createElement('p');
+      _description.textContent = description;
+      cardContainer.appendChild(_description);
+
+      const _dueDate = document.createElement('p');
+      _dueDate.textContent = dueDate;
+      cardContainer.appendChild(_dueDate);
+
+      const progressBar = document.createElement('div');
+      progressBar.classList.add('progress');
+      const progressBarValue = document.createElement('span');
+      progressBarValue.classList.add('progress__value');
+      progressBarValue.textContent = '0%';
+      progressBar.appendChild(progressBarValue);
+
+      cardContainer.appendChild(progressBar);
+
+      let progressStartValue = 0;
+      const progressEndValue = 100;
+      const speed = 5;
+
+      const progress = setInterval(() => {
+        progressStartValue++;
+
+        progressBarValue.textContent = `${progressStartValue}%`;
+        progressBar.setAttribute('style', `
+          background:
+            conic-gradient(
+              blue ${progressStartValue * 3.6}deg,
+              #ededed 0deg
+            );
+        `.trim());
+
+        if (progressStartValue === progressEndValue) {
+          clearInterval(progress);
+        }
+      }, speed);
 
       return cardContainer;
     };
