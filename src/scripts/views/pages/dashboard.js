@@ -130,11 +130,19 @@ const Dashboard = {
   },
 
   async next() {
-    const createCard = (data) => {
-      /**
+    /**
        * @param {Object} data Pass object data
+       * @param {Object} options
+       * @param {string} circularBarProgressColor -
+       * a valid coloring (CSS-like) works
+       *
        * @return {HTMLElement}
        */
+    const createCard = (
+        data,
+        options = {
+          circularBarProgressColor: 'blue'
+        }) => {
       const {
         title,
         description,
