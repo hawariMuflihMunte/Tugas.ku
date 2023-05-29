@@ -1,7 +1,5 @@
 import data from '../../data/data';
 
-defineComponents(IgcCircularProgressComponent);
-
 const Dashboard = {
   async render() {
     return `
