@@ -1,3 +1,7 @@
+import data from '../../data/data';
+
+defineComponents(IgcCircularProgressComponent);
+
 const Dashboard = {
   async render() {
     return `
@@ -35,10 +39,10 @@ const Dashboard = {
           <button
             type="button"
             class="btn btn-warning"
-            title="add task">
-            <span class="material-symbols-sharp"
+            title="add task"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal">add</span>
+            data-bs-target="#exampleModal">
+            <span class="material-symbols-sharp">add</span>
           </button>
         </section>
         <section>
@@ -119,6 +123,118 @@ const Dashboard = {
   },
 
   async next() {
+    /**
+       * @param {Object} data Pass object data
+       * @param {Object} options
+       * @param {string} circularBarProgressColor -
+       * a valid coloring (CSS-like) works
+       *
+       * @return {HTMLElement}
+       */
+    const createCard = (
+        data,
+        options = {
+          circularBarProgressColor: 'blue'
+        }) => {
+      const {
+        title,
+        description,
+        dueDate
+      } = data;
+
+      const cardContainer = document.createElement('div');
+      cardContainer.classList.add('card__custom');
+
+      const style = document.createElement('style');
+      style.textContent = `
+        .card__custom {
+          display: flex;
+          align-items: center;
+          border: 1px solid;
+          border-radius: 4px;
+          padding: 6px 2px;
+        }
+
+        @media (max-width: 576px) {
+          .card__custom {
+            flex-direction: column;
+          }
+        }
+
+        .progress {
+          position: relative;
+          height: 50px;
+          width: 50px;
+          border-radius: 50%;
+          background: conic-gradient(blue 3.6deg, #ededed 0deg);
+          display: flex;
+          place-content: center;
+          place-items: center;
+          margin: 6px;
+        }
+      
+        .progress::before {
+          content: "";
+          position: absolute;
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          background-color: white;
+        }
+      
+        .progress .progress__value {
+          position: relative;
+          font-weight: 600;
+          color: blue;
+        }
+      `.trim();
+      cardContainer.appendChild(style);
+
+      const _title = document.createElement('h3');
+      _title.textContent = title;
+      cardContainer.appendChild(_title);
+
+      const _description = document.createElement('p');
+      _description.textContent = description;
+      cardContainer.appendChild(_description);
+
+      const _dueDate = document.createElement('p');
+      _dueDate.textContent = dueDate;
+      cardContainer.appendChild(_dueDate);
+
+      const progressBar = document.createElement('div');
+      progressBar.classList.add('progress');
+      const progressBarValue = document.createElement('span');
+      progressBarValue.classList.add('progress__value');
+      progressBarValue.textContent = '0%';
+      progressBar.appendChild(progressBarValue);
+
+      cardContainer.appendChild(progressBar);
+
+      let progressStartValue = 0;
+      const progressEndValue = 100;
+      const speed = 5;
+
+      const progress = setInterval(() => {
+        progressStartValue++;
+
+        progressBarValue.textContent = `${progressStartValue}%`;
+        progressBar.setAttribute('style', `
+          background:
+            conic-gradient(
+              blue ${progressStartValue * 3.6}deg,
+              #ededed 0deg
+            );
+        `.trim());
+
+        if (progressStartValue === progressEndValue) {
+          clearInterval(progress);
+        }
+      }, speed);
+
+      return cardContainer;
+    };
+
     const navDrawerButton = document.querySelector('.open');
 
     navDrawerButton.addEventListener('click', (event) => {
@@ -126,6 +242,24 @@ const Dashboard = {
       document.querySelector('.navigation__drawer')
           .classList.toggle('open__drawer');
     });
+
+    const taskList = document.querySelector('#task-list');
+
+    taskList.addEventListener('render', (event) => {
+      document.getElementById('task-list').innerHTML = '';
+
+      const rawData = localStorage.getItem('demo');
+      const _data = JSON.parse(rawData);
+      console.log(_data);
+
+      _data.forEach((data) => {
+        const card = createCard(data);
+
+        document.getElementById('task-list').appendChild(card);
+      });
+    });
+
+    taskList.dispatchEvent(new Event('render'));
 
     const addTaskForm = document.querySelector('#add-task');
 
@@ -137,43 +271,47 @@ const Dashboard = {
       const dueDate = document.querySelector('#due-date');
 
       if (title.value === '' || title.value === null) {
-        alert('Title is empty. Can\tt proceed');
+        alert('Title is empty. Can\'t proceed');
+
+        document.getElementById('cancel-add-task')
+            .dispatchEvent(new Event('click'));
+
+        return false;
       }
 
       if (dueDate.value === '' || dueDate.value === null) {
-        alert('Due Date is empty. Can\tt proceed');
+        alert('Due Date is empty. Can\'t proceed');
+
+        document.getElementById('cancel-add-task')
+            .dispatchEvent(new Event('click'));
+
+        return false;
       }
 
-      const createCard = (data) => {
-        const {
-          title,
-          description,
-          dueDate
-        } = data;
-
-        const cardContainer = document.createElement('div');
-
-        cardContainer.innerHTML = `
-          <h3>${title}</h3>
-          <p>${description}</p>
-          <p>${dueDate}</p>
-        `;
-
-        return cardContainer;
-      };
-
-      const data = {
+      const _data = {
         title: title.value,
         description: description.value,
         dueDate: dueDate.value
       };
 
-      const card = createCard(data);
+      data.push(_data);
 
-      document.getElementById('task-list').append(card);
+      if (typeof (Storage) !== 'undefined') {
+        localStorage.setItem('demo', JSON.stringify(data));
+      }
+
+      const card = createCard(_data);
+
+      document.getElementById('task-list').appendChild(card);
 
       document.getElementById('cancel-add-task')
           .dispatchEvent(new Event('click'));
+
+      addTaskForm.reset();
+
+      taskList.dispatchEvent(new Event('render'));
+
+      return true;
     });
   }
 };
