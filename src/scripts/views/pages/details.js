@@ -1,7 +1,7 @@
 import urlParser from '../../routes/urlParser';
 import convertDate from '../../utils/convertDate';
 import customMonthNames from '../../utils/customMonthNames';
-import indonesianMonthNames from '../../utils/customMonthNames';
+import circularProgress from '../../utils/circularProgress';
 
 const Details = {
   async render() {
@@ -86,9 +86,11 @@ const Details = {
 
           <div id="task-list"></div>
         </details>
+        <div id="progress"></div>
       `;
 
       document.getElementById('task-list').appendChild(tasksContainer);
+      document.getElementById('progress').appendChild(circularProgress(84));
     } catch (error) {
       console.log(error);
     }

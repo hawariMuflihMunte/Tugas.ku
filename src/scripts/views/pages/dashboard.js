@@ -1,8 +1,8 @@
 import data from '../../data/data';
 import convertDate from '../../utils/convertDate';
 import generateId from '../../utils/generateId';
-import indonesianMonthNames from '../../utils/customMonthNames';
 import customMonthNames from '../../utils/customMonthNames';
+import circularProgress from '../../utils/circularProgress';
 
 const Dashboard = {
   async render() {
@@ -138,13 +138,6 @@ const Dashboard = {
   async next() {
     /**
        * @param {Object} data Pass object data
-       * @param {Object} options
-       * @param {string} options.circularBarProgressColor
-       * A valid coloring (CSS-like) works
-       * - Set stroke color
-       * @param {string} options.valueColor
-       * A valid coloring (CSS-like) works
-       * - Set value color
        * @param {string} cardLink
        * Specify the card link
        * - id
@@ -152,10 +145,6 @@ const Dashboard = {
        */
     const createCard = (
         data,
-        options = {
-          circularBarProgressColor: 'red',
-          valueColor: 'red'
-        },
         cardLink = '#') => {
       const {
         title,
@@ -220,36 +209,6 @@ const Dashboard = {
           color: #898989;
           font-size: 14px;
         }
-
-        .progress {
-          position: relative;
-          min-height: 60px;
-          min-width: 60px;
-          border-radius: 50%;
-          background: conic-gradient(
-            ${options.circularBarProgressColor} 3.6deg,
-            #ededed 0deg
-          );
-          display: flex;
-          place-content: center;
-          place-items: center;
-          margin: 6px;
-        }
-      
-        .progress::before {
-          content: "";
-          position: absolute;
-          min-height: calc(60px - 10px);
-          min-width: calc(60px - 10px);
-          border-radius: 50%;
-          background-color: white;
-        }
-      
-        .progress .progress__value {
-          position: relative;
-          font-weight: 600;
-          color: ${options.valueColor};
-        }
       `.trim();
       cardContainer.appendChild(style);
 
@@ -278,39 +237,7 @@ const Dashboard = {
 
       cardContainer.appendChild(detailsData);
 
-      const circularProgress = () => {
-        const progressBar = document.createElement('div');
-        progressBar.classList.add('progress');
-        const progressBarValue = document.createElement('span');
-        progressBarValue.classList.add('progress__value');
-        progressBar.appendChild(progressBarValue);
-
-        let progressStartValue = 0;
-        const progressEndValue = 100;
-        const speed = 5;
-
-        const progress = setInterval(() => {
-          progressStartValue++;
-
-          progressBarValue.textContent = `${progressStartValue}%`;
-          progressBar.setAttribute('style', `
-            background:
-              conic-gradient(
-                ${options.circularBarProgressColor}
-                ${progressStartValue * 3.6}deg,
-                #ededed 0deg
-              );
-          `.trim());
-
-          if (progressStartValue === progressEndValue) {
-            clearInterval(progress);
-          }
-        }, speed);
-
-        return progressBar;
-      };
-
-      const progress = circularProgress();
+      const progress = circularProgress(99, 40);
 
       detailsProgress.appendChild(progress);
       cardContainer.appendChild(progress);
@@ -385,10 +312,6 @@ const Dashboard = {
       _data.forEach((data) => {
         const card = createCard(
             data,
-            {
-              circularBarProgressColor: 'black',
-              valueColor: 'green'
-            },
             `/#/details/${data.id}`
         );
 
