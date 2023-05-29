@@ -1,4 +1,5 @@
 import data from '../../data/data';
+import generateId from '../../utils/generateId';
 
 const Dashboard = {
   async render() {
@@ -39,27 +40,27 @@ const Dashboard = {
             class="btn btn-warning"
             title="add task"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal">
+            data-bs-target="#addTask">
             <span class="material-symbols-sharp">add</span>
           </button>
         </section>
         <section>
-          <h2>Task</h2>
+          <h2><span class="material-symbols-sharp">task</span> Your Task</h2>
           <hr>
 
           <!-- Add Task -->
           <div
             class="modal fade"
-            id="exampleModal"
+            id="addTask"
             tabindex="-1"
-            aria-labelledby="exampleModalLabel"
+            aria-labelledby="addTaskLabel"
             aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <h1
                     class="modal-title fs-5"
-                    id="exampleModalLabel">Add task</h1>
+                    id="addTaskLabel">Add task</h1>
                   <button
                     type="button"
                     class="btn-close"
@@ -78,6 +79,17 @@ const Dashboard = {
                           aria-label="Title"
                           aria-describedby="title-input" />
                       </div>
+                      <div class="input-group mb-3">
+                        <button
+                          type="button"
+                          id="add-task-item"
+                          class="btn btn-outline-warning">
+                          <span class="material-symbols-sharp">add</span> Task
+                        </button>
+                      </div>
+                      <div
+                        id="task-items"
+                        class="mb-3 flex flex-col gap-3"></div>
                       <div class="input-group mb-3">
                         <textarea
                           id="description"
@@ -124,47 +136,97 @@ const Dashboard = {
     /**
        * @param {Object} data Pass object data
        * @param {Object} options
-       * @param {string} circularBarProgressColor -
-       * a valid coloring (CSS-like) works
-       *
+       * @param {string} options.circularBarProgressColor
+       * A valid coloring (CSS-like) works
+       * - Set stroke color
+       * @param {string} options.valueColor
+       * A valid coloring (CSS-like) works
+       * - Set value color
+       * @param {string} cardLink
+       * Specify the card link
+       * - id
        * @return {HTMLElement}
        */
     const createCard = (
         data,
         options = {
-          circularBarProgressColor: 'blue'
-        }) => {
+          circularBarProgressColor: 'red',
+          valueColor: 'red'
+        },
+        cardLink = '#') => {
       const {
         title,
         description,
         dueDate
       } = data;
 
-      const cardContainer = document.createElement('div');
+      const cardContainer = document.createElement('a');
       cardContainer.classList.add('card__custom');
+      cardContainer.href = `${cardLink}`;
 
       const style = document.createElement('style');
       style.textContent = `
-        .card__custom {
-          display: flex;
-          align-items: center;
-          border: 1px solid;
-          border-radius: 4px;
-          padding: 6px 2px;
+        a {
+          text-decoration: none;
         }
 
-        @media (max-width: 576px) {
-          .card__custom {
-            flex-direction: column;
-          }
+        .card__custom {
+          display: flex;
+          justify-content: space-between;
+          border-radius: 4px;
+          padding: 6px;
+          background-color: white;
+
+          flex-direction: row;
+          box-shadow: 0 1px 12px rgba(126, 126, 126, 0.32);
+          cursor: pointer;
+          width: 100%;
+        }
+
+        .card__custom:focus,
+        .card__custom:hover {
+          backgrond-color: grey;
+        }
+
+        .card__details {
+          padding-top: 11px;
+          padding-left: 11px;
+          min-width: 80%;
+          color: #666666;
+        }
+
+        .card__progress {
+          display: flex;
+          place-items: center;
+          place-content: center;
+          width: 100%;
+          height: 100;
+        }
+
+        .card__title {
+          font-weight: 500;
+          margin-bottom: 7.5px;
+        }
+
+        .card__description {
+          font-size: 16px;
+        }
+
+        .card__date {
+          font-style: italic;
+          color: #898989;
+          font-size: 14px;
         }
 
         .progress {
           position: relative;
-          height: 50px;
-          width: 50px;
+          min-height: 60px;
+          min-width: 60px;
           border-radius: 50%;
-          background: conic-gradient(blue 3.6deg, #ededed 0deg);
+          background: conic-gradient(
+            ${options.circularBarProgressColor} 3.6deg,
+            #ededed 0deg
+          );
           display: flex;
           place-content: center;
           place-items: center;
@@ -174,8 +236,8 @@ const Dashboard = {
         .progress::before {
           content: "";
           position: absolute;
-          height: 40px;
-          width: 40px;
+          min-height: calc(60px - 10px);
+          min-width: calc(60px - 10px);
           border-radius: 50%;
           background-color: white;
         }
@@ -183,22 +245,53 @@ const Dashboard = {
         .progress .progress__value {
           position: relative;
           font-weight: 600;
-          color: blue;
+          color: ${options.valueColor};
         }
       `.trim();
       cardContainer.appendChild(style);
 
+      const detailsData = document.createElement('div');
+      detailsData.classList.add('card__details');
+
+      const detailsProgress = document.createElement('div');
+      detailsProgress.classList.add('card__progress');
+
       const _title = document.createElement('h3');
-      _title.textContent = title;
-      cardContainer.appendChild(_title);
+      _title.textContent = title.toUpperCase();
+      _title.classList.add('card__title');
+      detailsData.appendChild(_title);
 
       const _description = document.createElement('p');
       _description.textContent = description;
-      cardContainer.appendChild(_description);
+      _description.classList.add('card__description');
+      detailsData.appendChild(_description);
 
       const _dueDate = document.createElement('p');
-      _dueDate.textContent = dueDate;
-      cardContainer.appendChild(_dueDate);
+      const dateObj = new Date(dueDate);
+      const day = dateObj.getDate();
+      const monthIndex = dateObj.getMonth();
+      const year = dateObj.getFullYear();
+
+      const monthNames = [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+      ];
+
+      _dueDate.textContent = `${day} ${monthNames[monthIndex]} ${year}`;
+      _dueDate.classList.add('card__date');
+      detailsData.appendChild(_dueDate);
+
+      cardContainer.appendChild(detailsData);
 
       const progressBar = document.createElement('div');
       progressBar.classList.add('progress');
@@ -207,7 +300,8 @@ const Dashboard = {
       progressBarValue.textContent = '0%';
       progressBar.appendChild(progressBarValue);
 
-      cardContainer.appendChild(progressBar);
+      detailsProgress.appendChild(progressBar);
+      cardContainer.appendChild(detailsProgress);
 
       let progressStartValue = 0;
       const progressEndValue = 100;
@@ -220,7 +314,8 @@ const Dashboard = {
         progressBar.setAttribute('style', `
           background:
             conic-gradient(
-              blue ${progressStartValue * 3.6}deg,
+              ${options.circularBarProgressColor}
+              ${progressStartValue * 3.6}deg,
               #ededed 0deg
             );
         `.trim());
@@ -233,6 +328,51 @@ const Dashboard = {
       return cardContainer;
     };
 
+    // Add task item
+    /**
+     * @param {HTMLElement} container Any HTMLElement will work.
+     * @param {Array} classNames Set class name attribute for element.
+     * - It should be an array of strings representing the class
+     * names to be added.
+     * @param {string} placeholder Insert placeholder for this `<input>`.
+     * @return {boolean} if elements exceed requirements: 5 items.
+     */
+    const addTaskItem = (
+        container,
+        classNames = [],
+        placeholder = ''
+    ) => {
+      const newElement = document.createElement('input');
+      newElement.type = 'text';
+
+      if (classNames.length !== 0) {
+        newElement.setAttribute('class', `${classNames.join(' ')}`);
+      }
+
+      if (container.childElementCount >= 5) {
+        alert(`
+          Maximum limit reached: ${container.childElementCount} items.
+        `.trim());
+
+        return false;
+      }
+
+      newElement.placeholder = placeholder;
+
+      container.appendChild(newElement);
+    };
+
+    const addTaskItemButton = document.getElementById('add-task-item');
+    const addTaskItemContainer = document.getElementById('task-items');
+    addTaskItemButton.addEventListener('click', () => {
+      addTaskItem(addTaskItemContainer, [
+        'form-control',
+        'mb-2'
+      ], `
+        Task
+      `.trim());
+    });
+
     const navDrawerButton = document.querySelector('.open');
 
     navDrawerButton.addEventListener('click', (event) => {
@@ -244,6 +384,8 @@ const Dashboard = {
     const taskList = document.querySelector('#task-list');
 
     taskList.addEventListener('render', (event) => {
+      event.stopImmediatePropagation();
+
       document.getElementById('task-list').innerHTML = '';
 
       const rawData = localStorage.getItem('demo');
@@ -251,7 +393,14 @@ const Dashboard = {
       console.log(_data);
 
       _data.forEach((data) => {
-        const card = createCard(data);
+        const card = createCard(
+            data,
+            {
+              circularBarProgressColor: 'black',
+              valueColor: 'green'
+            },
+            `/#/details/${data.id}`
+        );
 
         document.getElementById('task-list').appendChild(card);
       });
@@ -267,6 +416,11 @@ const Dashboard = {
       const title = document.querySelector('#title');
       const description = document.querySelector('#description');
       const dueDate = document.querySelector('#due-date');
+
+      const _tasks = addTaskItemContainer.querySelectorAll('input');
+      const _tasksArray = [..._tasks];
+      const tasks = _tasksArray.map((task) => task.value);
+      // console.log(tasks);
 
       if (title.value === '' || title.value === null) {
         alert('Title is empty. Can\'t proceed');
@@ -287,9 +441,11 @@ const Dashboard = {
       }
 
       const _data = {
+        id: generateId(),
         title: title.value,
         description: description.value,
-        dueDate: dueDate.value
+        dueDate: dueDate.value,
+        tasks: tasks
       };
 
       data.push(_data);
