@@ -1,4 +1,5 @@
 import data from '../../data/data';
+import convertDate from '../../utils/convertDate';
 import generateId from '../../utils/generateId';
 
 const Dashboard = {
@@ -266,12 +267,6 @@ const Dashboard = {
       _description.classList.add('card__description');
       detailsData.appendChild(_description);
 
-      const _dueDate = document.createElement('p');
-      const dateObj = new Date(dueDate);
-      const day = dateObj.getDate();
-      const monthIndex = dateObj.getMonth();
-      const year = dateObj.getFullYear();
-
       const monthNames = [
         'Januari',
         'Februari',
@@ -287,7 +282,10 @@ const Dashboard = {
         'Desember'
       ];
 
-      _dueDate.textContent = `${day} ${monthNames[monthIndex]} ${year}`;
+      const _dueDate = document.createElement('p');
+      const date = convertDate(dueDate, monthNames);
+
+      _dueDate.textContent = date;
       _dueDate.classList.add('card__date');
       detailsData.appendChild(_dueDate);
 
