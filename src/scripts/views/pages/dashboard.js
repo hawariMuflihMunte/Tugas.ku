@@ -1,3 +1,9 @@
+import data from '../../data/data';
+import convertDate from '../../utils/convertDate';
+import generateId from '../../utils/generateId';
+import customMonthNames from '../../utils/customMonthNames';
+import circularProgress from '../../utils/circularProgress';
+
 const Dashboard = {
   async render() {
     return `
@@ -35,29 +41,29 @@ const Dashboard = {
           <button
             type="button"
             class="btn btn-warning"
-            title="add task">
-            <span class="material-symbols-sharp"
+            title="add task"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal">add</span>
+            data-bs-target="#addTask">
+            <span class="material-symbols-sharp">add</span>
           </button>
         </section>
         <section>
-          <h2>Task</h2>
+          <h2><span class="material-symbols-sharp">task</span> Your Task</h2>
           <hr>
 
           <!-- Add Task -->
           <div
             class="modal fade"
-            id="exampleModal"
+            id="addTask"
             tabindex="-1"
-            aria-labelledby="exampleModalLabel"
+            aria-labelledby="addTaskLabel"
             aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <h1
                     class="modal-title fs-5"
-                    id="exampleModalLabel">Add task</h1>
+                    id="addTaskLabel">Add task</h1>
                   <button
                     type="button"
                     class="btn-close"
@@ -76,6 +82,17 @@ const Dashboard = {
                           aria-label="Title"
                           aria-describedby="title-input" />
                       </div>
+                      <div class="input-group mb-3">
+                        <button
+                          type="button"
+                          id="add-task-item"
+                          class="btn btn-outline-warning">
+                          <span class="material-symbols-sharp">add</span> Task
+                        </button>
+                      </div>
+                      <div
+                        id="task-items"
+                        class="mb-3 flex flex-col gap-3"></div>
                       <div class="input-group mb-3">
                         <textarea
                           id="description"
@@ -119,6 +136,160 @@ const Dashboard = {
   },
 
   async next() {
+    /**
+       * @param {Object} data Pass object data
+       * @param {string} cardLink
+       * Specify the card link
+       * - id
+       * @return {HTMLElement}
+       */
+    const createCard = (
+        data,
+        cardLink = '#') => {
+      const {
+        title,
+        description,
+        dueDate
+      } = data;
+
+      const cardContainer = document.createElement('a');
+      cardContainer.classList.add('card__custom');
+      cardContainer.href = `${cardLink}`;
+
+      const style = document.createElement('style');
+      style.textContent = `
+        a {
+          text-decoration: none;
+        }
+
+        .card__custom {
+          display: flex;
+          justify-content: space-between;
+          border-radius: 4px;
+          padding: 6px;
+          background-color: white;
+
+          flex-direction: row;
+          box-shadow: 0 1px 12px rgba(126, 126, 126, 0.32);
+          cursor: pointer;
+          width: 100%;
+        }
+
+        .card__custom:focus,
+        .card__custom:hover {
+          backgrond-color: grey;
+        }
+
+        .card__details {
+          padding-top: 11px;
+          padding-left: 11px;
+          min-width: 80%;
+          color: #666666;
+        }
+
+        .card__progress {
+          display: flex;
+          place-items: center;
+          place-content: center;
+          width: 100%;
+          height: 100;
+        }
+
+        .card__title {
+          font-weight: 500;
+          margin-bottom: 7.5px;
+        }
+
+        .card__description {
+          font-size: 16px;
+        }
+
+        .card__date {
+          font-style: italic;
+          color: #898989;
+          font-size: 14px;
+        }
+      `.trim();
+      cardContainer.appendChild(style);
+
+      const detailsData = document.createElement('div');
+      detailsData.classList.add('card__details');
+
+      const detailsProgress = document.createElement('div');
+      detailsProgress.classList.add('card__progress');
+
+      const _title = document.createElement('h3');
+      _title.textContent = title.toUpperCase();
+      _title.classList.add('card__title');
+      detailsData.appendChild(_title);
+
+      const _description = document.createElement('p');
+      _description.textContent = description;
+      _description.classList.add('card__description');
+      detailsData.appendChild(_description);
+
+      const _dueDate = document.createElement('p');
+      const date = convertDate(dueDate, customMonthNames());
+
+      _dueDate.textContent = date;
+      _dueDate.classList.add('card__date');
+      detailsData.appendChild(_dueDate);
+
+      cardContainer.appendChild(detailsData);
+
+      const progress = circularProgress(99, 40);
+
+      detailsProgress.appendChild(progress);
+      cardContainer.appendChild(progress);
+
+      return cardContainer;
+    };
+
+    // Add task item
+    /**
+     * @param {HTMLElement} container Any HTMLElement will work.
+     * @param {Array} classNames Set class name attribute for element.
+     * - It should be an array of strings representing the class
+     * names to be added.
+     * @param {string} placeholder Insert placeholder for this `<input>`.
+     * @return {boolean} if elements exceed requirements: 5 items.
+     */
+    const addTaskItem = (
+        container,
+        classNames = [],
+        placeholder = ''
+    ) => {
+      const newElement = document.createElement('input');
+      newElement.type = 'text';
+
+      if (classNames.length !== 0) {
+        newElement.setAttribute('class', `${classNames.join(' ')}`);
+      }
+
+      if (container.childElementCount >= 5) {
+        alert(`
+          Maximum limit reached: ${container.childElementCount} items.
+        `.trim());
+
+        return false;
+      }
+
+      newElement.placeholder = placeholder;
+
+      container.appendChild(newElement);
+    };
+
+    const addTaskItemButton = document.getElementById('add-task-item');
+    const addTaskItemContainer = document.getElementById('task-items');
+    addTaskItemButton.addEventListener('click', () => {
+      addTaskItem(addTaskItemContainer, [
+        'form-control',
+        'mb-2'
+      ], `
+        Task
+      `.trim());
+    });
+
     const navDrawerButton = document.querySelector('.open');
 
     navDrawerButton.addEventListener('click', (event) => {
@@ -126,6 +297,29 @@ const Dashboard = {
       document.querySelector('.navigation__drawer')
           .classList.toggle('open__drawer');
     });
+
+    const taskList = document.querySelector('#task-list');
+
+    taskList.addEventListener('render', (event) => {
+      event.stopImmediatePropagation();
+
+      document.getElementById('task-list').innerHTML = '';
+
+      const rawData = localStorage.getItem('demo');
+      const _data = JSON.parse(rawData);
+      console.log(_data);
+
+      _data.forEach((data) => {
+        const card = createCard(
+            data,
+            `/#/details/${data.id}`
+        );
+
+        document.getElementById('task-list').appendChild(card);
+      });
+    });
+
+    taskList.dispatchEvent(new Event('render'));
 
     const addTaskForm = document.querySelector('#add-task');
 
@@ -136,44 +330,55 @@ const Dashboard = {
       const description = document.querySelector('#description');
       const dueDate = document.querySelector('#due-date');
 
+      const _tasks = addTaskItemContainer.querySelectorAll('input');
+      const _tasksArray = [..._tasks];
+      const tasks = _tasksArray.map((task) => task.value);
+      // console.log(tasks);
+
       if (title.value === '' || title.value === null) {
-        alert('Title is empty. Can\tt proceed');
+        alert('Title is empty. Can\'t proceed');
+
+        document.getElementById('cancel-add-task')
+            .dispatchEvent(new Event('click'));
+
+        return false;
       }
 
       if (dueDate.value === '' || dueDate.value === null) {
-        alert('Due Date is empty. Can\tt proceed');
+        alert('Due Date is empty. Can\'t proceed');
+
+        document.getElementById('cancel-add-task')
+            .dispatchEvent(new Event('click'));
+
+        return false;
       }
 
-      const createCard = (data) => {
-        const {
-          title,
-          description,
-          dueDate
-        } = data;
-
-        const cardContainer = document.createElement('div');
-
-        cardContainer.innerHTML = `
-          <h3>${title}</h3>
-          <p>${description}</p>
-          <p>${dueDate}</p>
-        `;
-
-        return cardContainer;
-      };
-
-      const data = {
+      const _data = {
+        id: generateId(),
         title: title.value,
         description: description.value,
-        dueDate: dueDate.value
+        dueDate: dueDate.value,
+        tasks: tasks
       };
 
-      const card = createCard(data);
+      data.push(_data);
 
-      document.getElementById('task-list').append(card);
+      if (typeof (Storage) !== 'undefined') {
+        localStorage.setItem('demo', JSON.stringify(data));
+      }
+
+      const card = createCard(_data);
+
+      document.getElementById('task-list').appendChild(card);
 
       document.getElementById('cancel-add-task')
           .dispatchEvent(new Event('click'));
+
+      addTaskForm.reset();
+
+      taskList.dispatchEvent(new Event('render'));
+
+      return true;
     });
   }
 };

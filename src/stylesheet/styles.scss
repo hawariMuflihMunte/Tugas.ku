@@ -5,11 +5,24 @@
 @import "material-symbols/sharp.css";
 @import "./material-symbols.config.css";
 
+//color
+// :root {
+//   --primary-bg : #FFFFFF;
+//   --second-bg : #F6F6F6;
+//   --text : #19376D;
+//   --button: #A5D7E8;
+// }
+
 // Global
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
 }
 
 img {
@@ -36,21 +49,76 @@ button:not([class*="btn"]) {
 }
 
 main {
-  margin-top: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 86px;
+  color: #555555;
 }
 
-// Custom
+// logo
+.brand__logo {
+  padding: 20px 26px;
+  border-bottom: 1px solid;
+}
+
+.brand__logo h1 {
+  font-size: 24px;
+  color: var(--text);
+  font-weight: bold;
+}
+
+//container
+h1, p, .btn {
+  color: var(--text);
+}
+
+// Benefit
+
+
+.benefit h1{
+  color: var(--text);
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 57px;
+}
+
+.benefit .card{
+  color: var(--text);
+  box-shadow: 9px 12px 20px rgba(126, 126, 126, 0.32);
+  border-radius: 16px;
+  border: none;
+}
+
+.benefit .card h5{
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 33px;
+}
+
+.benefit .card p{
+  color: var(--text);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 27px;
+  text-align: center;
+}
+
+//footer 
+footer span{
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 52px;
+}
 
 .container__custom {
   margin-left: auto;
   margin-right: auto;
   max-width: 80%;
-  padding-top: 12px;
 }
 
 @media (max-width: 576px) {
   .container__custom {
-    max-width: 94%;
+    max-width: 96%;
   }
 }
 
@@ -58,16 +126,20 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2px 26px;
-  background-color: inherit;
+  padding: 20px 26px;
+  background-color: white;
 
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  
-  border-bottom: 1px solid;
+
+  box-shadow: 0 1px 12px rgba(126, 126, 126, 0.32);
+
+  a {
+    color: #666666;
+  }
 
   > a {
     font-size: 24px;
