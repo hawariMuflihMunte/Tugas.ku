@@ -1,6 +1,8 @@
 import data from '../../data/data';
 import convertDate from '../../utils/convertDate';
 import generateId from '../../utils/generateId';
+import indonesianMonthNames from '../../utils/customMonthNames';
+import customMonthNames from '../../utils/customMonthNames';
 
 const Dashboard = {
   async render() {
@@ -267,23 +269,8 @@ const Dashboard = {
       _description.classList.add('card__description');
       detailsData.appendChild(_description);
 
-      const monthNames = [
-        'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember'
-      ];
-
       const _dueDate = document.createElement('p');
-      const date = convertDate(dueDate, monthNames);
+      const date = convertDate(dueDate, customMonthNames());
 
       _dueDate.textContent = date;
       _dueDate.classList.add('card__date');
@@ -291,37 +278,42 @@ const Dashboard = {
 
       cardContainer.appendChild(detailsData);
 
-      const progressBar = document.createElement('div');
-      progressBar.classList.add('progress');
-      const progressBarValue = document.createElement('span');
-      progressBarValue.classList.add('progress__value');
-      progressBarValue.textContent = '0%';
-      progressBar.appendChild(progressBarValue);
+      const circularProgress = () => {
+        const progressBar = document.createElement('div');
+        progressBar.classList.add('progress');
+        const progressBarValue = document.createElement('span');
+        progressBarValue.classList.add('progress__value');
+        progressBar.appendChild(progressBarValue);
 
-      detailsProgress.appendChild(progressBar);
-      cardContainer.appendChild(detailsProgress);
+        let progressStartValue = 0;
+        const progressEndValue = 100;
+        const speed = 5;
 
-      let progressStartValue = 0;
-      const progressEndValue = 100;
-      const speed = 5;
+        const progress = setInterval(() => {
+          progressStartValue++;
 
-      const progress = setInterval(() => {
-        progressStartValue++;
+          progressBarValue.textContent = `${progressStartValue}%`;
+          progressBar.setAttribute('style', `
+            background:
+              conic-gradient(
+                ${options.circularBarProgressColor}
+                ${progressStartValue * 3.6}deg,
+                #ededed 0deg
+              );
+          `.trim());
 
-        progressBarValue.textContent = `${progressStartValue}%`;
-        progressBar.setAttribute('style', `
-          background:
-            conic-gradient(
-              ${options.circularBarProgressColor}
-              ${progressStartValue * 3.6}deg,
-              #ededed 0deg
-            );
-        `.trim());
+          if (progressStartValue === progressEndValue) {
+            clearInterval(progress);
+          }
+        }, speed);
 
-        if (progressStartValue === progressEndValue) {
-          clearInterval(progress);
-        }
-      }, speed);
+        return progressBar;
+      };
+
+      const progress = circularProgress();
+
+      detailsProgress.appendChild(progress);
+      cardContainer.appendChild(progress);
 
       return cardContainer;
     };

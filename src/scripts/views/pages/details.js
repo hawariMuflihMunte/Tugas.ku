@@ -1,4 +1,7 @@
 import urlParser from '../../routes/urlParser';
+import convertDate from '../../utils/convertDate';
+import customMonthNames from '../../utils/customMonthNames';
+import indonesianMonthNames from '../../utils/customMonthNames';
 
 const Details = {
   async render() {
@@ -47,7 +50,7 @@ const Details = {
       // console.log(taskDetailsArray);
 
       const getTask = taskDetailsArray
-          .find((task) => task.id === Number('1685357070277'));
+          .find((task) => task.id === Number(getId));
 
       if (getTask) {
         console.log('found: ', getTask);
@@ -77,7 +80,7 @@ const Details = {
       taskContainer.innerHTML = `
         <h2>${getTask.title}</h2>
         <p>${getTask.description}</p>
-        <p>${getTask.dueDate}</p>
+        <p>${convertDate(getTask.dueDate, customMonthNames())}</p>
         <details>
           <summary>Task</summary>
 
