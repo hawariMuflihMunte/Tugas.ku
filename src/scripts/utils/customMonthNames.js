@@ -1,9 +1,7 @@
 /**
  * @param {Array} months
- * Set optional naming for month names,
- * if not set that default month name
- * will be used.
- * - Set array, ex. Indonesian month
+ * Set naming for month names,
+ * - Pass array data, ex. Indonesian month
  * names:\
  * ['Januari', 'Februari', 'Maret']
  * and so on.
