@@ -14,7 +14,11 @@ const SplashScreen = {
           <h1 class=" mb-3">Manage your task with <span class="text-warning"> Tugasku</span> </h1>
           <p class="lead">Don't let tasks pile up. Use our task management app to easily create lists, prioritize, and track progress.</p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" class="btn btn-info btn-lg px-4 me-md-2 fw-bold">Dashboard</button>
+            <a
+              href="/#/dashboard"
+              class="btn btn-info btn-lg px-4 me-md-2 fw-bold">
+              Dashboard
+            </a>
           </div>
         </div>
       </div>
