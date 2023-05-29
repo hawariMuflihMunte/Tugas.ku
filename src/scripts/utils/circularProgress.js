@@ -1,5 +1,7 @@
 /**
  * @param {Number} value
+ * @param {Number} size
+ * - Set progress bar size in `px`
  * @param {Object} options
  * A valid coloring string for UI color
  * @param {string} options.circularBarProgressColor
@@ -14,6 +16,7 @@
  */
 const circularProgress = (
     value = 0,
+    size = 60,
     options = {
       circularBarProgressColor: 'blue',
       circularBarProgressContainerColor: '#ededed',
@@ -26,8 +29,8 @@ const circularProgress = (
   style.textContent = `
   .progress {
     position: relative;
-    min-height: 60px;
-    min-width: 60px;
+    height: ${size}px;
+    width: ${size}px;
     border-radius: 50%;
     background: conic-gradient(
       ${options.circularBarProgressColor} 3.6deg,
@@ -42,8 +45,8 @@ const circularProgress = (
   .progress::before {
     content: "";
     position: absolute;
-    min-height: calc(60px - 10px);
-    min-width: calc(60px - 10px);
+    height: calc(${size}px - 10px);
+    width: calc(${size}px - 10px);
     border-radius: 50%;
     background-color: ${options.centerCircleColor} !important;
   }
