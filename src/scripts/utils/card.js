@@ -43,7 +43,7 @@ const createCard = (
 
     .card__custom:focus,
     .card__custom:hover {
-      backgrond-color: grey;
+      opacity: 0.85;
     }
 
     .card__details {
