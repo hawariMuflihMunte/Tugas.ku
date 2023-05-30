@@ -10,12 +10,12 @@
  * You should pass all the required string
  * arguments in this object. If not, the
  * element will produce an error.
- * @param {string} loaderOptions.circularBarProgressColor
+ * @param {string} loaderOptions.strokeColor
  * - Set stroke color
- * @param {string} loaderOptions.circularBarProgressContainerColor
- * - Set stroke container color
- * @param {string} loaderOptions.centerCircleColor
- * - Set stroke container color
+ * @param {string} loaderOptions.strokeLineColor
+ * - Set stroke line color
+ * @param {string} loaderOptions.centerColor
+ * - Set circular center color
  * @param {string} loaderOptions.valueColor
  * - Set value color
  * @return {HTMLElement} progressBar
@@ -24,9 +24,9 @@ const circularProgress = (
     value = 0,
     size = 60,
     loaderOptions = {
-      circularBarProgressColor: 'blue',
-      circularBarProgressContainerColor: '#ededed',
-      centerCircleColor: 'white',
+      strokeColor: 'blue',
+      strokeLineColor: '#ededed',
+      centerColor: 'white',
       valueColor: 'blue'
     }
 ) => {
@@ -44,8 +44,8 @@ const circularProgress = (
       width: ${size}px;
       border-radius: 50%;
       background: conic-gradient(
-        ${loaderOptions.circularBarProgressColor} 3.6deg,
-        ${loaderOptions.circularBarProgressContainerColor} 0deg
+        ${loaderOptions.strokeColor} 3.6deg,
+        ${loaderOptions.strokeLineColor} 0deg
       );
       display: flex;
       place-content: center;
@@ -61,7 +61,7 @@ const circularProgress = (
       min-width: 30px;
       width: calc(${size}px - 10px);
       border-radius: 50%;
-      background-color: ${loaderOptions.centerCircleColor} !important;
+      background-color: ${loaderOptions.centerColor} !important;
     }
 
     .progress__component .progress__value {
@@ -93,9 +93,9 @@ const circularProgress = (
     progressBar.setAttribute('style', `
     background:
       conic-gradient(
-        ${loaderOptions.circularBarProgressColor}
+        ${loaderOptions.strokeColor}
         ${incrementer * 3.6}deg,
-        ${loaderOptions.circularBarProgressContainerColor} 0deg
+        ${loaderOptions.strokeLineColor} 0deg
       );
   `.trim());
 
