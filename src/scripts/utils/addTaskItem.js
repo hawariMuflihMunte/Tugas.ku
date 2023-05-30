@@ -14,6 +14,7 @@ const addTaskItem = (
 ) => {
   const inputElement = document.createElement('input');
   inputElement.type = 'text';
+  inputElement.required = true;
 
   if (classNames.length !== 0) {
     inputElement.setAttribute('class', `${classNames.join(' ')}`);
