@@ -57,6 +57,7 @@
     "bootstrap": "^5.2.3",
     "http-server": "^14.1.1",
     "material-symbols": "^0.5.5",
+    "pwa-asset-generator": "^6.3.1",
     "regenerator-runtime": "^0.13.11",
     "workbox-window": "^6.5.4"
   }
