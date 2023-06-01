@@ -1,5 +1,7 @@
 import urlParser from '../routes/urlParser';
 import routes from '../routes/routes';
+import storageManagement from '../utils/storageManagement';
+import CONFIG from '../global/config';
 
 /**
  * Initialize application
@@ -21,8 +23,12 @@ class App {
     const url = urlParser.parseActiveUrlWithCombiner();
     const page = routes[url];
 
-    this._app.innerHTML = await page.render();
+    // Init localStorage with `global.CONFIG.localStorageKey`
+    if (storageManagement.loadLocal(CONFIG.localStorageKey) === null) {
+      storageManagement.saveLocal(CONFIG.localStorageKey, []);
+    }
 
+    this._app.innerHTML = await page.render();
     await page.next();
   }
 };
