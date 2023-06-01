@@ -4,42 +4,29 @@
  */
 class FormTask {
   /**
-   * @param {Object} data
-   * @param {HTMLFormElement} data.container
+   * @param {HTMLFormElement} container
    * Place HTMLFormElement inside the container.
-   * @param {string} data.title
+   * @param {string} title
    * - Input string value.
-   * @param {string} data.description
+   * @param {string} description
    * - Input string value.
-   * @param {string} data.date
+   * @param {string} date
    * - Input string value.
-   * @param {Array} data.tasks
-   * - Input string value.
-   *
-   * @param {Object} taskList
-   * @param {HTMLElement} taskList.container
-   * Place HTMLElement inside the container.
-   * @param {Array} taskList.classNames
-   * The given `string` array will be converted
-   * to class attribute to this element.
-   * @param {string} taskList.placeholder
-   * Placeholder for element.
+   * @param {Array} tasks
+   * - Input Array value.
    */
-  constructor(
-      data = {
-        container,
-        title,
-        description,
-        date,
-        tasks
-      }
-  ) {
-    // Data
-    this._container = data.container;
-    this._title = data.title;
-    this._description = data.description;
-    this._date = data.date;
-    this._tasks = data.tasks;
+  constructor({
+    container,
+    title,
+    description,
+    date,
+    tasks
+  }) {
+    this._container = container;
+    this._title = title;
+    this._description = description;
+    this._date = date;
+    this._tasks = tasks;
 
     this._validateTitle();
     this._validateDate();
@@ -123,7 +110,7 @@ class FormTask {
    */
   createTaskObject() {
     return {
-      id: this.generateId(),
+      id: this._generateId(),
       // createdAt: DD-MM-YYYY
       createdAt: new Date().toLocaleDateString('en-GB').split('/').join('-'),
       title: this._title,
