@@ -31,12 +31,18 @@ const storageManagement = {
   /**
    * @param {String} key
    * Data key to be retrieved
-   * @return {Object}
+   * @return {Object|null}
+   * - If `null` or `undefined` return `null`.
+   * - Otherwise return `Object`.
    */
   loadLocal(key) {
     if (this.checkCompatibility()) {
       const raw = localStorage.getItem(key);
-      return JSON.parse(raw);
+      if (raw !== null || raw !== undefined) {
+        return JSON.parse(raw);
+      } else {
+        return null;
+      }
     }
   },
 
@@ -55,12 +61,18 @@ const storageManagement = {
   /**
    * @param {String} key
    * Data key to be retrieved
-   * @return {Object}
+   * @return {Object|null}
+   * - If `null` or `undefined` return `null`.
+   * - Otherwise return `Object`.
    */
   loadSession(key) {
     if (this.checkCompatibility()) {
       const raw = sessionStorage.getItem(key);
-      return JSON.parse(raw);
+      if (raw !== null || raw !== undefined) {
+        return JSON.parse(raw);
+      } else {
+        return null;
+      }
     }
   }
 };
