@@ -51,6 +51,7 @@ const circularProgress = (
       place-content: center;
       place-items: center;
       margin: 6px;
+      transition: all linear 150ms
     }
 
     .progress__component::before {
