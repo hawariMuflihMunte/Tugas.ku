@@ -1,65 +1,77 @@
 /**
  * @param {Number} value
+ * - Limit value is 100
  * @param {Number} size
- * - Set progress bar size in `px`
- * @param {Object} options
- * A valid coloring string for UI color
- * @param {string} options.circularBarProgressColor
+ * Set progress bar size
+ * - Default size: `60px`
+ * @param {Object} loaderOptions
+ * A valid coloring string.\
+ * If you want to customize this element,
+ * You should pass all the required string
+ * arguments in this object. If not, the
+ * element will produce an error.
+ * @param {string} loaderOptions.strokeColor
  * - Set stroke color
- * @param {string} options.circularBarProgressContainerColor
- * - Set stroke container color
- * @param {string} options.centerCircleColor
- * - Set stroke container color
- * @param {string} options.valueColor
+ * @param {string} loaderOptions.strokeLineColor
+ * - Set stroke line color
+ * @param {string} loaderOptions.centerColor
+ * - Set circular center color
+ * @param {string} loaderOptions.valueColor
  * - Set value color
  * @return {HTMLElement} progressBar
  */
 const circularProgress = (
     value = 0,
     size = 60,
-    options = {
-      circularBarProgressColor: 'blue',
-      circularBarProgressContainerColor: '#ededed',
-      centerCircleColor: 'white',
+    loaderOptions = {
+      strokeColor: 'blue',
+      strokeLineColor: '#ededed',
+      centerColor: 'white',
       valueColor: 'blue'
     }
 ) => {
+  const progressBar = document.createElement('div');
+  progressBar.classList.add('progress__component');
+
   const style = document.createElement('style');
 
   style.textContent = `
-  .progress {
-    position: relative;
-    height: ${size}px;
-    width: ${size}px;
-    border-radius: 50%;
-    background: conic-gradient(
-      ${options.circularBarProgressColor} 3.6deg,
-      ${options.circularBarProgressContainerColor} 0deg
-    );
-    display: flex;
-    place-content: center;
-    place-items: center;
-    margin: 6px;
-  }
+    .progress__component {
+      position: relative;
+      min-height: 40px;
+      height: ${size}px;
+      min-width: 40px;
+      width: ${size}px;
+      border-radius: 50%;
+      background: conic-gradient(
+        ${loaderOptions.strokeColor} 3.6deg,
+        ${loaderOptions.strokeLineColor} 0deg
+      );
+      display: flex;
+      place-content: center;
+      place-items: center;
+      margin: 6px;
+      transition: all linear 150ms
+    }
 
-  .progress::before {
-    content: "";
-    position: absolute;
-    height: calc(${size}px - 10px);
-    width: calc(${size}px - 10px);
-    border-radius: 50%;
-    background-color: ${options.centerCircleColor} !important;
-  }
+    .progress__component::before {
+      content: "";
+      position: absolute;
+      min-height: 30px;
+      height: calc(${size}px - 10px);
+      min-width: 30px;
+      width: calc(${size}px - 10px);
+      border-radius: 50%;
+      background-color: ${loaderOptions.centerColor} !important;
+    }
 
-  .progress .progress__value {
-    position: relative;
-    font-weight: 600;
-    color: ${options.valueColor};
-  }
-`.trim();
-
-  const progressBar = document.createElement('div');
-  progressBar.classList.add('progress');
+    .progress__component .progress__value {
+      position: relative;
+      font-weight: 500;
+      font-size: 12px;
+      color: ${loaderOptions.valueColor};
+    }
+  `.trim();
 
   progressBar.appendChild(style);
 
@@ -67,27 +79,32 @@ const circularProgress = (
   progressBarValue.classList.add('progress__value');
   progressBar.appendChild(progressBarValue);
 
+  // Set value limit to 100
+  let _value = value;
+  if (value >= 100) {
+    _value = 100;
+  }
+
   let incrementer = 0;
-  const _value = value;
-  const progressEndValue = 100;
-  const speed = 10;
+  const progressEndValue = _value + 1;
+  const speed = 6;
 
   const progress = setInterval(() => {
-    if (incrementer >= _value) {
-      clearInterval(progress);
-    }
-
     progressBarValue.textContent = `${incrementer}%`;
     progressBar.setAttribute('style', `
     background:
       conic-gradient(
-        ${options.circularBarProgressColor}
+        ${loaderOptions.strokeColor}
         ${incrementer * 3.6}deg,
-        ${options.circularBarProgressContainerColor} 0deg
+        ${loaderOptions.strokeLineColor} 0deg
       );
   `.trim());
 
-    if (_value === progressEndValue) {
+    if (incrementer >= _value) {
+      clearInterval(progress);
+    }
+
+    if (_value >= progressEndValue) {
       clearInterval(progress);
     }
 

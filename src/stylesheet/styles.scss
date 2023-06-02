@@ -5,6 +5,8 @@
 @import "material-symbols/sharp.css";
 @import "./material-symbols.config.css";
 
+@import "./nav.scss";
+
 //color
 // :root {
 //   --primary-bg : #FFFFFF;
@@ -23,6 +25,8 @@
 html,
 body {
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 img {
@@ -122,71 +126,9 @@ footer span{
   }
 }
 
-.navigation {
+#data-list {
+  margin-top: 24px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 26px;
-  background-color: white;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-
-  box-shadow: 0 1px 12px rgba(126, 126, 126, 0.32);
-
-  a {
-    color: #666666;
-  }
-
-  > a {
-    font-size: 24px;
-  }
-
-  // Mobile
-  .navigation__drawer,
-  .navigation__drawer li {
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .navigation__drawer {
-    top: 0;
-    right: 0;
-    align-self: center;
-    list-style: none;
-    gap: 10px;
-
-    transition: 120ms ease-out;
-  }
-
-  .navigation__drawer a {
-    width: 100%;
-  }
-
-  .open {
-    display: none;
-  }
-
-  @media (max-width: 576px) {
-    .navigation__drawer {
-      border-left: 1px solid;
-      border-bottom: 1px solid;
-      position: fixed;
-      flex-direction: column;
-      transform: translateX(150%);
-    }
-
-    .open {
-      display: inline-flex;
-    }
-
-    .open__drawer {
-      transform: translateX(0%) translateY(50px);
-    }
-  }
-  // End Mobile
+  flex-direction: column;
+  gap: 16px;
 }
