@@ -27,9 +27,6 @@ class FormTask {
     this._description = description;
     this._date = date;
     this._tasks = tasks;
-
-    this._validateTitle();
-    this._validateDate();
   }
 
   /**
@@ -105,17 +102,25 @@ class FormTask {
   }
 
   /**
-   * Object-ize string value
-   * @return {Object}
+   * Generate object
+   * @return {false|Object}
+   * - `false` if title or date is invalid or empty.
    */
   createTaskObject() {
+    if (this._validateTitle() || this._validateDate()) {
+      return false;
+    }
+
     return {
       id: this._generateId(),
       // createdAt: DD-MM-YYYY
-      createdAt: new Date().toLocaleDateString('en-GB').split('/').join('-'),
+      createdAt: new Date()
+          .toLocaleDateString('en-GB').split('/').join('-'),
       title: this._title,
       description: this._description,
-      date: this._date,
+      // date: DD-MM-YYYY
+      date: new Date(this._date)
+          .toLocaleDateString('en-GB').split('/').join('-'),
       tasks: this._tasks
     };
   }
