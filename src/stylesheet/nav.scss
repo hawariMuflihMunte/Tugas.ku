@@ -1,0 +1,107 @@
+.navigation-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 26px;
+  background-color: white;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  box-shadow: 0 1px 12px rgba(126, 126, 126, 0.32);
+
+  a {
+    color: #666666;
+  }
+
+  > a {
+    font-size: 24px;
+  }
+
+  // Mobile
+  .navigation-custom__drawer,
+  .navigation-custom__drawer li {
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navigation-custom__drawer {
+    align-self: center;
+    list-style: none;
+    gap: 10px;
+
+    transition: 120ms ease-out;
+  }
+
+  .navigation-custom__drawer li a {
+    display: inline-flex;
+    padding: 12px;
+    width: 100%;
+    transition: all ease 150ms;
+  }
+
+  .navigation-custom-drawer {
+    display: none;
+  }
+
+  @media (max-width: 576px) {
+    .navigation-custom__drawer {
+      background-color: inherit;
+      position: fixed;
+      top: 84px;
+      right: 0;
+      flex-direction: column;
+      
+      width: 100%;
+      transform: translateX(120%);
+      box-shadow: 0 2px 4px rgba(126, 126, 126, 0.32);
+      gap: 0;
+    }
+
+    .navigation-custom__drawer li {
+      border-top: 2px solid #eee;
+    }
+
+    .navigation-custom__drawer li a:focus,
+    .navigation-custom__drawer li a:hover {
+      box-shadow: inset 0 2px 8px #ccc;
+      filter: brightness(80%);
+    }
+
+    .navigation-custom-drawer {
+      background-color: inherit;
+      display: inline-flex;
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(126, 126, 126, 0.32);
+      transition: all ease 200ms;
+    }
+
+    .navigation-custom-drawer:focus,
+    .navigation-custom-drawer:hover {
+      animation: animate-button 0.3s linear 0s 1 alternate;
+      box-shadow: none;
+      border: 1px solid rgba(126, 126, 126, 0.32);
+    }
+
+    @keyframes animate-button {
+      0% {
+        box-shadow: 0 0 12px rgba(126, 126, 126, 0.32);
+      }
+      50% {
+        box-shadow: 0 0 0px rgba(126, 126, 126, 0.32); 
+      }
+      100% {
+        border: 1px solid rgba(126, 126, 126, 0.32);
+      }
+    }
+
+    .navigation-custom-drawer__open {
+      transform: translateX(0);
+    }
+  }
+  // End Mobile
+}

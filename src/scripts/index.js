@@ -6,6 +6,7 @@ import * as bootstrap from 'bootstrap';
 import 'regenerator-runtime';
 
 import App from './views/app';
+import swRegister from './utils/sw-register';
 
 const app = new App({
   app: document.getElementById('app')
@@ -13,6 +14,7 @@ const app = new App({
 
 window.onload = async () => {
   await app.render();
+  swRegister();
 };
 
 window.onhashchange = async () => {
