@@ -23,9 +23,9 @@ class App {
     const url = urlParser.parseActiveUrlWithCombiner();
     const page = routes[url];
 
-    // Init localStorage with `global.CONFIG.localStorageKey`
-    if (storageManagement.loadLocal(CONFIG.localStorageKey) === null) {
-      storageManagement.saveLocal(CONFIG.localStorageKey, []);
+    // Init localStorage with `global.CONFIG.key`
+    if (storageManagement.loadLocal(CONFIG.APP_LOCAL_STORAGE_KEY) === null) {
+      storageManagement.saveLocal(CONFIG.APP_LOCAL_STORAGE_KEY, []);
     }
 
     this._app.innerHTML = await page.render();
