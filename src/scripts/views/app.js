@@ -2,6 +2,7 @@ import urlParser from '../routes/urlParser';
 import routes from '../routes/routes';
 import storageManagement from '../utils/storageManagement';
 import CONFIG from '../global/config';
+import loader from '../utils/loader';
 
 /**
  * Initialize application
@@ -20,6 +21,8 @@ class App {
 
   // eslint-disable-next-line require-jsdoc
   async render() {
+    this._app.innerHTML = loader(true);
+
     const url = urlParser.parseActiveUrlWithCombiner();
     const page = routes[url];
 
@@ -28,8 +31,19 @@ class App {
       storageManagement.saveLocal(CONFIG.APP_LOCAL_STORAGE_KEY, []);
     }
 
-    this._app.innerHTML = await page.render();
-    await page.next();
+    const loadComplete = new Event('load-complete');
+
+    const pageResult = await page.render();
+
+    document.addEventListener('load-complete', async () => {
+      this._app.innerHTML = '';
+      this._app.innerHTML = pageResult;
+      await page.next();
+    });
+
+    setTimeout(() => {
+      document.dispatchEvent(loadComplete);
+    }, 10);
   }
 };
 

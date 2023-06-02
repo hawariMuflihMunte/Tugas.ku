@@ -1,17 +1,20 @@
 /**
- * Generate a loader element.
+ * Generate a loader for loading state.
  * @param {Boolean} isInString
  * - Whether ot return the loader as a string or a DOM element.
  * @return {string|HTMLElement}
- * - The loader HTML string or,
- * - the loader DOM element.
+ * - `true` returns DOM element,
+ * - `false` returns string.
  */
-const loader = (isInString = false) => {
+const loader = (isInString = true) => {
   if (isInString) {
     return `
       <style>
         .loader {
-          position: relative;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           display: flex;
           place-content: center;
           place-items: center;
@@ -66,7 +69,10 @@ const loader = (isInString = false) => {
   const style = document.createElement('style');
   style.textContent = `
     .loader {
-      position: relative;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: flex;
       place-content: center;
       place-items: center;
