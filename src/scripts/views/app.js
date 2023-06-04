@@ -43,7 +43,7 @@ class App {
 
     setTimeout(() => {
       document.dispatchEvent(loadComplete);
-    }, 10);
+    }, 400);
   }
 };
 
