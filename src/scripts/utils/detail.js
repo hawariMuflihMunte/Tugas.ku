@@ -163,11 +163,7 @@ const detail = (
   }
 
   if (tasks.length !== 0) {
-    // const countUndoneTasks = tasks.filter((task) => !task.isDone).length;
     const countDoneTasks = tasks.filter((task) => task.isDone).length;
-
-    // console.log(countUndoneTasks);
-    // console.log(countDoneTasks);
 
     const setValueToProgress = countDoneTasks / tasks.length * 100;
     progressValue = setValueToProgress;
