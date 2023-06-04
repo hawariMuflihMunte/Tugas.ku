@@ -67,8 +67,14 @@ const createCard = (
 
     .card-custom__details {
       padding-top: 12px;
-      min-width: 80%;
+      width: 80%;
       color: inherit;
+    }
+
+    @media (max-width: 576px) {
+      .card-custom__details {
+        padding: 8px;
+      }
     }
 
     .card-custom:focus > .card-custom__details,
