@@ -140,6 +140,17 @@ const detail = (
       justify-content: stretch;
     }
 
+    @media (max-width: 576px) {
+      .detail-card__options {
+        // flex-direction: column;
+        position: fixed;
+        flex-direction: row-reverse;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+      }
+    }
+
     .detail-card__options button {
       flex-grow: 1;
       transition: all 200ms ease;
