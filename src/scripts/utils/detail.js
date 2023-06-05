@@ -133,6 +133,16 @@ const detail = (
       box-shadow: inset 0 2px 8px #ccc;
       color: #000;
     }
+
+    .detail-card__options {
+      display: flex;
+      width: 100%;
+      justify-content: stretch;
+    }
+
+    .detail-card__options button {
+      flex-grow: 1;
+    }
   `.trim();
   cardContainer.appendChild(style);
 
@@ -239,8 +249,22 @@ const detail = (
 
   detailsProgress.appendChild(progress);
   detailsRow.appendChild(detailsProgress);
+
   cardContainer.appendChild(detailsRow);
   cardContainer.appendChild(unorderedList);
+
+  const taskOptions = document.createElement('div');
+  taskOptions.classList.add('detail-card__options');
+
+  const btnEditTask = document.createElement('button');
+  btnEditTask.textContent = 'Edit';
+  taskOptions.appendChild(btnEditTask);
+
+  const btnDeleteTask = document.createElement('button');
+  btnDeleteTask.textContent = 'Delete';
+  taskOptions.appendChild(btnDeleteTask);
+
+  cardContainer.appendChild(taskOptions);
 
   return cardContainer;
 };
