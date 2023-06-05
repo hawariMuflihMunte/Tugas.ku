@@ -142,6 +142,26 @@ const detail = (
 
     .detail-card__options button {
       flex-grow: 1;
+      transition: all 200ms ease;
+    }
+
+    .detail-card__options #edit {
+      background-color: #eeee9b;
+      color: #444;
+    }
+
+    .detail-card__options #edit:hover {
+      background-color: #ffd900;
+      color: #000;
+    }
+
+    .detail-card__options #delete {
+      background-color: #f47174;
+      color: #fff;
+    }
+
+    .detail-card__options #delete:hover {
+      background-color: #e6143c;
     }
   `.trim();
   cardContainer.appendChild(style);
@@ -257,11 +277,13 @@ const detail = (
   taskOptions.classList.add('detail-card__options');
 
   const btnEditTask = document.createElement('button');
-  btnEditTask.textContent = 'Edit';
+  btnEditTask.id = 'edit';
+  btnEditTask.textContent = 'Edit ✍';
   taskOptions.appendChild(btnEditTask);
 
   const btnDeleteTask = document.createElement('button');
-  btnDeleteTask.textContent = 'Delete';
+  btnDeleteTask.id = 'delete';
+  btnDeleteTask.textContent = 'Delete 💢';
   taskOptions.appendChild(btnDeleteTask);
 
   cardContainer.appendChild(taskOptions);
