@@ -7,14 +7,6 @@
 
 @import "./nav.scss";
 
-//color
-// :root {
-//   --primary-bg : #FFFFFF;
-//   --second-bg : #F6F6F6;
-//   --text : #19376D;
-//   --button: #A5D7E8;
-// }
-
 // Global
 *,
 *::before,
@@ -59,26 +51,7 @@ main {
   color: #555555;
 }
 
-// logo
-.brand__logo {
-  padding: 20px 26px;
-  border-bottom: 1px solid;
-}
-
-.brand__logo h1 {
-  font-size: 24px;
-  color: var(--text);
-  font-weight: bold;
-}
-
-//container
-h1, p, .btn {
-  color: var(--text);
-}
-
 // Benefit
-
-
 .benefit h1{
   color: var(--text);
   font-weight: 600;
@@ -107,7 +80,7 @@ h1, p, .btn {
   text-align: center;
 }
 
-//footer 
+// Footer 
 footer span{
   font-weight: 600;
   font-size: 28px;
