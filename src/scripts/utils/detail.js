@@ -216,16 +216,10 @@ const detail = (
               .saveLocal(CONFIG.APP_LOCAL_STORAGE_KEY, dataFromStorage);
         }
 
-        // const countUndoneTasks = tasks.filter((task) => !task.isDone).length;
         const countDoneTasks = tasks.filter((task) => task.isDone).length;
-
-        // console.log(countUndoneTasks);
-        // console.log(countDoneTasks);
 
         const setValueToProgress = countDoneTasks / tasks.length * 100;
         progressValue = setValueToProgress;
-
-        // console.log(data);
 
         _container.dispatchEvent(new Event(CONFIG.DATA_LIST_RENDER));
       });
