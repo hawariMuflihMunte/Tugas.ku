@@ -148,12 +148,13 @@ const detail = (
 
     @media (max-width: 576px) {
       .detail-card__options {
-        // flex-direction: column;
         position: fixed;
         flex-direction: row-reverse;
         width: 100%;
         bottom: 0;
         left: 0;
+
+        box-shadow: 0 -1px 6px rgba(126, 126, 126, 0.32);
       }
     }
 
