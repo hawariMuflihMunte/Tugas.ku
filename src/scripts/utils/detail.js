@@ -32,8 +32,16 @@ const detail = (
 
   const cardContainer = document.createElement('div');
   cardContainer.classList.add('detail-card');
-  cardContainer.id = id;
-  cardContainer.setAttribute('created-at', createdAt);
+
+  const makeTimeString = createdAt.split('-');
+  const makeTimeNumber = new Date(
+      makeTimeString[2], makeTimeString[1] - 1, makeTimeString[0]
+  );
+
+  cardContainer.setAttribute('created-at', makeTimeNumber.getTime());
+
+  // const decryptTime = makeTimeNumber
+  //     .toLocaleDateString('en-GB').split('/').join('-');
 
   const style = document.createElement('style');
   style.textContent = `
