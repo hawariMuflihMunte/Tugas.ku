@@ -72,6 +72,12 @@ const detail = (
       color: #777;
     }
 
+    @media (max-width: 576px) {
+      .detail-card {
+        margin-bottom: 75px;
+      }
+    }
+
     .detail-card:focus,
     .detail-card:hover {
       opacity: 0.85;
