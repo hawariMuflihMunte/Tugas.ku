@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 class Presenter {
   constructor({
     listContainer
@@ -860,11 +862,12 @@ class Presenter {
         unorderedList.appendChild(list);
       });
     } else {
-      const message = document.createElement('span');
-      message.style = 'text-align: center;'.trim();
-      message.textContent = '-- No Task --'.trim();
+      const list = document.createElement('li');
+      list.classList.add('detail__task-list');
+      list.style = 'place-content: center;';
+      list.textContent = '-- No Task --';
 
-      unorderedList.appendChild(message);
+      unorderedList.appendChild(list);
     }
 
     const progress = this.circularProgress(progressValue, 80);
@@ -1007,22 +1010,6 @@ class Presenter {
     taskOptionsModalBody.appendChild(taskOptionsModalFormContainer);
     taskOptionsModalBody.appendChild(taskOptionsModalFormContainer);
 
-    taskOptionsModalForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const objectize = {
-        id: id,
-        createdAt: createdAt,
-        title: titleInput.value,
-        description: descriptionInput.value,
-        date: new Date(dateInput.value)
-            .toLocaleDateString('en-GB').split('/').join('-'),
-        tasks: tasks
-      };
-
-      console.log(objectize);
-    });
-
     taskOptionsModal.appendChild(taskOptionsModalBody);
     cardContainer.appendChild(taskOptionsModal);
 
@@ -1073,6 +1060,70 @@ class Presenter {
       } else {
         alert('Cancelled');
       }
+    });
+
+    // const firstArray = [{ task: "clean the room", isDone: false }];
+    // const secondArray = [{ task: "buy groceries", isDone: true }];
+
+    // // Merge the two arrays
+    // const mergedArray = [...firstArray, ...secondArray];
+
+    // // Filter the merged array based on the "isDone" property
+    // const filteredArray = mergedArray.filter(item => !item.isDone);
+
+    // console.log(filteredArray);
+
+
+    taskOptionsModalForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const currentData = tasks;
+      const getInputsValue = Array.from(inputsContainer.childNodes);
+      const inputsValue = getInputsValue.map((input) => input.value)
+          .filter((value) => value !== '')
+          .map((value) => ({
+            task: value,
+            isDone: false
+          }));
+
+      const mergeData = [...currentData, ...inputsValue];
+
+      // Filter the merged array based on the "task" property
+      // const filterData = mergeData.filter((data) => {
+      //   const hasSameTask = inputsValue.some((inputsValue) => {
+      //     return inputsValue.task === data.task;
+      //   });
+
+      //   return hasSameTask;
+      // });
+      // const uniqueTask = new Set(mergeData.map((data) => data.task));
+      // const filterData =
+      // mergeData.filter((data) => uniqueTask.has(data.task));
+
+      const filterData = mergeData.reduce((accumulator, data) => {
+        if (!accumulator[data.task]) {
+          accumulator[data.task] = true;
+          return [...accumulator, data];
+        }
+
+        return accumulator;
+      }, []);
+
+      // console.log(inputsValue);
+      // console.log(mergeData);
+      console.log(filterData);
+
+      const objectize = {
+        id: id,
+        createdAt: createdAt,
+        title: titleInput.value,
+        description: descriptionInput.value,
+        date: new Date(dateInput.value)
+            .toLocaleDateString('en-GB').split('/').join('-'),
+        tasks: tasks
+      };
+
+      console.log(objectize);
     });
 
     cardContainer.appendChild(taskOptions);
