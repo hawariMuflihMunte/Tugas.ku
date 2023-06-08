@@ -56,6 +56,17 @@ class Controller {
     // console.log(data);
     this.presenter.renderDetail(data);
   }
+
+  deleteData(id) {
+    if (this.backlog.deleteData(id)) {
+      // Debugging purpose-only
+      // console.log(this.backlog.getData());
+
+      return true;
+    } else {
+      console.error('Error while deleting data from data storage.');
+    }
+  }
 };
 
 export default Controller;
