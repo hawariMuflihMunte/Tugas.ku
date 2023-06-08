@@ -1077,7 +1077,8 @@ class Presenter {
       const mergeData = [...currentData, ...inputsValue];
       const filterData = _.uniqBy(mergeData, 'task');
 
-      console.log(filterData);
+      // Debugging purpose-only
+      // console.log(filterData);
 
       const objectize = {
         id: id,
@@ -1091,7 +1092,8 @@ class Presenter {
         tasks: filterData
       };
 
-      console.log(objectize);
+      // Debugging purpose-only
+      // console.log(objectize);
 
       // Pass data to the controller
       if (this.controller) {
