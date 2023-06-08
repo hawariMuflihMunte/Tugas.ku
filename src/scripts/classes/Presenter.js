@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Swal from 'sweetalert2';
 
 class Presenter {
   constructor({
