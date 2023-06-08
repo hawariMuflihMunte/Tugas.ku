@@ -1062,18 +1062,6 @@ class Presenter {
       }
     });
 
-    // const firstArray = [{ task: "clean the room", isDone: false }];
-    // const secondArray = [{ task: "buy groceries", isDone: true }];
-
-    // // Merge the two arrays
-    // const mergedArray = [...firstArray, ...secondArray];
-
-    // // Filter the merged array based on the "isDone" property
-    // const filteredArray = mergedArray.filter(item => !item.isDone);
-
-    // console.log(filteredArray);
-
-
     taskOptionsModalForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
@@ -1087,30 +1075,8 @@ class Presenter {
           }));
 
       const mergeData = [...currentData, ...inputsValue];
+      const filterData = _.uniqBy(mergeData, 'task');
 
-      // Filter the merged array based on the "task" property
-      // const filterData = mergeData.filter((data) => {
-      //   const hasSameTask = inputsValue.some((inputsValue) => {
-      //     return inputsValue.task === data.task;
-      //   });
-
-      //   return hasSameTask;
-      // });
-      // const uniqueTask = new Set(mergeData.map((data) => data.task));
-      // const filterData =
-      // mergeData.filter((data) => uniqueTask.has(data.task));
-
-      const filterData = mergeData.reduce((accumulator, data) => {
-        if (!accumulator[data.task]) {
-          accumulator[data.task] = true;
-          return [...accumulator, data];
-        }
-
-        return accumulator;
-      }, []);
-
-      // console.log(inputsValue);
-      // console.log(mergeData);
       console.log(filterData);
 
       const objectize = {
@@ -1120,10 +1086,20 @@ class Presenter {
         description: descriptionInput.value,
         date: new Date(dateInput.value)
             .toLocaleDateString('en-GB').split('/').join('-'),
-        tasks: tasks
+        // The result is taken from merging previous data and newly
+        // added data in the edit session.
+        tasks: filterData
       };
 
       console.log(objectize);
+
+      // Pass data to the controller
+      if (this.controller) {
+        taskOptionsModalForm.reset(); // Clear form
+        this.controller.updateData(id, objectize);
+      } else {
+        console.warn('Please set the controller first to pass the data.');
+      }
     });
 
     cardContainer.appendChild(taskOptions);
