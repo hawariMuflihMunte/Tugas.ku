@@ -845,6 +845,7 @@ class Presenter {
 
         checkbox.addEventListener('change', () => {
           task.isDone = !task.isDone;
+          checkbox.checked = !checkbox.checked;
 
           // Pass data to the controller
           if (this.controller) {
@@ -858,6 +859,10 @@ class Presenter {
 
           const setValueToProgress = countDoneTasks / tasks.length * 100;
           progressValue = setValueToProgress;
+        });
+
+        checkbox.addEventListener('click', () => {
+          this.dispatchEvent(list, 'click');
         });
 
         list.appendChild(checkbox);
@@ -1097,6 +1102,10 @@ class Presenter {
 
       const currentData = tasks;
       const getInputsValue = Array.from(inputsContainer.childNodes);
+
+      // console.log(getInputsValue);
+      // return;
+
       const inputsValue = getInputsValue.map((input) => input.value)
           .filter((value) => value !== '')
           .map((value) => ({
@@ -1105,7 +1114,8 @@ class Presenter {
           }));
 
       const mergeData = [...currentData, ...inputsValue];
-      const filterData = _.uniqBy(mergeData, 'task');
+      const filterData = getInputsValue.length === 0 ?
+          [] : _.uniqBy(mergeData, 'task');
 
       // Debugging purpose-only
       // console.log(filterData);
