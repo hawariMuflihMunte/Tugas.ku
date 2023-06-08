@@ -40,7 +40,7 @@ const loader = (isInString = true) => {
           border-bottom: 2px solid white;
         
           transition: 100ms linear;
-          animation: spin-loader 1s linear 0s infinite alternate;
+          animation: spin-loader 0.4s linear 0s infinite alternate;
           z-index: 1100;
         }
         
