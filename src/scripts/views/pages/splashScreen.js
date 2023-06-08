@@ -1,4 +1,4 @@
-import Drawer from '../../utils/drawer';
+import Drawer from '../../classes/UtilsDrawer';
 
 const SplashScreen = {
   async render() {
@@ -95,6 +95,8 @@ const SplashScreen = {
   },
 
   async next() {
+
+    
     console.log('%cWelcome to Tugas.ku :D', `
       padding: 0 4px;
       border-radius: 4px;

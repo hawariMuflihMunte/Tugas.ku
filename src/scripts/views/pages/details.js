@@ -1,9 +1,9 @@
+import CONFIG from '../../global/config';
+import UrlParser from '../../routes/UrlParser';
 import Backlog from '../../classes/Backlog';
 import Presenter from '../../classes/Presenter';
 import Controller from '../../classes/Controller';
-import UrlParser from '../../routes/UrlParser';
-import CONFIG from '../../global/config';
-import Drawer from '../../utils/drawer';
+import Drawer from '../../classes/UtilsDrawer';
 
 const Details = {
   async render() {

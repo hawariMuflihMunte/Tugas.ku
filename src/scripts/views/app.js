@@ -1,6 +1,6 @@
 import UrlParser from '../routes/UrlParser';
+import Utils from '../classes/Utils';
 import routes from '../routes/routes';
-import loader from '../utils/loader';
 
 /**
  * Initialize application
@@ -17,11 +17,10 @@ class App {
     this._app = app;
   }
 
-  // eslint-disable-next-line require-jsdoc
   async render() {
     const urlParser = new UrlParser();
 
-    this._app.innerHTML = loader(true);
+    this._app.innerHTML = Utils.loader(true);
 
     const url = urlParser.parseActiveUrlWithCombiner();
     const page = routes[url];

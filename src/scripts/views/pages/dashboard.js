@@ -1,12 +1,8 @@
-// import storageManagement from '../../utils/storageManagement';
-// import createCard from '../../utils/card';
-// import FormTask from '../../utils/FormTask';
-// import TaskList from '../../utils/TaskList';
 import CONFIG from '../../global/config';
-import Drawer from '../../utils/drawer';
 import Backlog from '../../classes/Backlog';
 import Presenter from '../../classes/Presenter';
 import Controller from '../../classes/Controller';
+import Drawer from '../../classes/UtilsDrawer';
 
 const Dashboard = {
   async render() {
