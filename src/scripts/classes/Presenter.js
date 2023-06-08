@@ -47,7 +47,8 @@ class Presenter {
     }
 
     if (!(data instanceof Object)) {
-      console.log('data is not Object');
+      // Debugging purpose-only
+      // console.log('data is not Object');
       return false;
     }
 
@@ -957,10 +958,17 @@ class Presenter {
 
     btnAddInput.addEventListener('click', () => {
       if (inputsContainer.childElementCount >= 5) {
-        alert(`
-          Maximum item limit reached: ${inputsContainer.childElementCount}
-          items.
-        `.replace(/\s+/g, ' ')); // Removes spaces
+        // alert(`
+        //   Maximum item limit reached: ${inputsContainer.childElementCount}
+        //   items.
+        // `.replace(/\s+/g, ' ')); // Removes spaces
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Limit!',
+          text: `Maximum item limit reached:
+            ${inputsContainer.childElementCount} items.`.replace(/\s+/g, ' ')
+        });
 
         return false;
       }
@@ -1004,7 +1012,7 @@ class Presenter {
 
     const btnSubmitUpdate = document.createElement('button');
     btnSubmitUpdate.type = 'submit';
-    btnSubmitUpdate.textContent = 'Edit ✍';
+    btnSubmitUpdate.textContent = 'Update ✍';
 
     taskOptionsModalForm.appendChild(btnSubmitUpdate);
     taskOptionsModalFormContainer.appendChild(taskOptionsModalForm);
@@ -1056,11 +1064,32 @@ class Presenter {
     taskOptions.appendChild(btnDeleteTask);
 
     btnDeleteTask.addEventListener('click', () => {
-      if (confirm('Delete?')) {
-        alert('Deleted!');
-      } else {
-        alert('Cancelled');
-      }
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+          );
+
+          if (this.controller) {
+            this.controller.deleteData(id);
+          } else {
+            console.warn('Please set the controller first to pass the data.');
+          }
+
+          // Redirect user to Dashboard page
+          window.history.back();
+        }
+      });
     });
 
     taskOptionsModalForm.addEventListener('submit', (event) => {
@@ -1100,6 +1129,12 @@ class Presenter {
       if (this.controller) {
         taskOptionsModalForm.reset(); // Clear form
         this.controller.updateData(id, objectize);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Updated Successfully',
+          text: 'Your data has been saved in the data storage.'
+        });
       } else {
         console.warn('Please set the controller first to pass the data.');
       }
@@ -1189,10 +1224,17 @@ class Presenter {
 
     _btnAddInput.addEventListener('click', () => {
       if (_inputsContainer.childElementCount >= 5) {
-        alert(`
-          Maximum item limit reached: ${_inputsContainer.childElementCount}
-          items.
-        `.replace(/\s+/g, ' ')); // Removes spaces
+        // alert(`
+        //   Maximum item limit reached: ${_inputsContainer.childElementCount}
+        //   items.
+        // `.replace(/\s+/g, ' ')); // Removes spaces
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Limit!',
+          text: `Maximum item limit reached:
+            ${inputsContainer.childElementCount} items.`.replace(/\s+/g, ' ')
+        });
 
         return false;
       }
@@ -1271,6 +1313,12 @@ class Presenter {
       if (this.controller) {
         _form.reset(); // Clear form
         this.controller.addData(objectize);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Added Successfully',
+          text: 'Your data has been saved in the data storage.'
+        });
       } else {
         console.warn('Please set the controller first to pass the data.');
       }
