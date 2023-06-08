@@ -92,6 +92,20 @@ class Backlog {
     return false;
   }
 
+  deleteData(id) {
+    this.updateData();
+
+    const index = this._data.findIndex((data) => data.id === id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    this._data.splice(index, 1);
+    this.updateData();
+    return true;
+  }
+
   /**
    * @return {boolean}
    * return `false` if your web browser does
