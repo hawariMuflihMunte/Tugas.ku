@@ -11,4 +11,9 @@ Scenario('Showing Jumbotron', async ({ I }) => {
   I.seeElement(locate('div#jumbotron'));
 });
 
+Scenario('Showing Benefit Section', async ({ I }) => {
+  I.wait(2);
+  I.seeElement(locate('section#benefit'));
+});
+
 
