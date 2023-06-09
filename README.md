@@ -1,7 +1,7 @@
 # Tugas.ku
 
 Aplikasi Manajemen Penjadwalan Tugas.\
-Proyek ini dibangun dengan menggunakan JavaScript murni dengan Webpack sebagai _module bundler_.
+_Native JavaScript App_
 
 ![Tech Stack](https://skillicons.dev/icons?i=figma,github,html,scss,bootstrap,javascript,nodejs&theme=light)
 
