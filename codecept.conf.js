@@ -9,7 +9,7 @@ setCommonPlugins();
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
   tests: 'e2e/**/*.spec.js',
-  output: './output',
+  output: 'e2e/outputs',
   helpers: {
     Puppeteer: {
       url: 'http://127.0.0.1:5000',
