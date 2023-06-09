@@ -1070,8 +1070,8 @@ class Presenter {
 
     btnDeleteTask.addEventListener('click', () => {
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
+        title: 'Are you sure want to delete this task?',
+        text: 'This action is irreversible!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -1080,8 +1080,8 @@ class Presenter {
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire(
-              'Deleted!',
-              'Your data has been deleted.',
+              'Task Deleted!',
+              'The selected task has been deleted.',
               'success'
           );
 
