@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import Drawer from '../../classes/UtilsDrawer';
 
 const SplashScreen = {
@@ -5,7 +6,7 @@ const SplashScreen = {
     return `
       ${Drawer.renderInterface()}
       <div class="container col-xxl-12 px-4 py-5 mt-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5" id="jumbotron">
           <div
             class="col-10 col-sm-8 col-lg-8  d-lg-flex justify-content-lg-end">
             <img
