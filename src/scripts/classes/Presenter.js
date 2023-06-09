@@ -1138,8 +1138,8 @@ class Presenter {
 
         Swal.fire({
           icon: 'success',
-          title: 'Updated Successfully',
-          text: 'Your data has been saved in the data storage.',
+          title: 'Task Updated!',
+          text: 'The selected task has been updated.',
         });
       } else {
         console.warn('Please set the controller first to pass the data.');
@@ -1324,8 +1324,8 @@ class Presenter {
 
         Swal.fire({
           icon: 'success',
-          title: 'New Task Added Successfully',
-          text: 'Your newest task has been saved in the data storage.',
+          title: 'New Task Added!',
+          text: 'The newest task has been saved in the data storage.',
         });
       } else {
         console.warn('Please set the controller first to pass the data.');
