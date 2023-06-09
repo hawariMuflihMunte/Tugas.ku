@@ -8,5 +8,7 @@ Before(({ I }) => {
 
 Scenario('Showing Jumbotron', async ({ I }) => {
   I.wait(2);
-  I.seeElement(locate('div.container'));
+  I.seeElement(locate('div#jumbotron'));
 });
+
+
