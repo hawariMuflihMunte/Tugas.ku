@@ -60,6 +60,14 @@ npm run serve:prod
 
 ## Deskripsi
 
-Kami mengutamakan performa kecepatan aplikasi sehingga JavaScript murni menjadi pilihan kami sebagai tech stack utama pada proyek ini.
+Kami mengutamakan performa kecepatan aplikasi sehingga JavaScript murni (_vanilla JavaScript_) menjadi pilihan kami sebagai tech stack utama pada proyek ini.
 
-Selain itu, aplikasi "Tugas.ku" dapat dijalankan secara offline dengan bantuan teknologi _**Progressive Web Apps**_. Untuk dapat menyimpan data yang diinput oleh pengguna, kami memanfaatkan Web Storage API. Dengan bantuan `localStorage` kami dapat mengelola data yang diinput oleh pengguna.
+Aplikasi "Tugas.ku" dapat berjalan secara offline dengan bantuan teknologi _**Progressive Web Apps**_. Untuk dapat menyimpan data yang diinput oleh pengguna, kami memanfaatkan Web Storage API. Dengan bantuan `localStorage` kami dapat mengelola data yang diinput oleh pengguna.
+
+Dengan adanya teknologi _**Progressive Web Apps**_ memungkin aplikasi "Tugas.ku" dapat di _install_ di web browser dan berjalan layaknya sebuah aplikasi native. Tanpa perlu pemasangan aplikasi atau mencari aplikasi di store tertentu (seperti Google Play Store dan sebagainya).
+
+---
+
+## Lisensi
+
+[Apache License Version 2.0](LICENSE)
