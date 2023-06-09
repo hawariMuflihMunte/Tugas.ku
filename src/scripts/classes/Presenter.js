@@ -2,9 +2,7 @@ import _ from 'lodash';
 import Swal from 'sweetalert2';
 
 class Presenter {
-  constructor({
-    listContainer
-  }) {
+  constructor({ listContainer }) {
     this._listContainer = listContainer;
 
     // console.log('Presenter class init.');
@@ -74,15 +72,17 @@ class Presenter {
    */
   renderListItems(data, container, controllerHandler) {
     if (!(data instanceof Array)) {
-      console.log(`
+      console.log(
+        `
         Data that is passed into
         \'renderListItems\' is not a valid Array
-      `.trim());
+      `.trim()
+      );
       return false;
     }
 
     if (!(container instanceof HTMLElement)) {
-      console.log('Container for \'renderListItems\' is not valid!');
+      console.log("Container for 'renderListItems' is not valid!");
       return false;
     }
 
@@ -100,7 +100,7 @@ class Presenter {
       controllerHandler == null ||
       controllerHandler == undefined
     ) {
-      console.error('\'controllerHandler\' is not defined!');
+      console.error("'controllerHandler' is not defined!");
       return false;
     }
 
@@ -162,11 +162,11 @@ class Presenter {
         'September',
         'Oktober',
         'November',
-        'Desember'
+        'Desember',
       ];
     }
     return months;
-  };
+  }
 
   /**
    * @param {String} dateValue
@@ -209,7 +209,7 @@ class Presenter {
       const _monthNames = monthNames;
       return `${day} ${_monthNames[monthIndex]} ${year}`;
     }
-  };
+  }
 
   /**
    * @param {Number} value
@@ -234,14 +234,14 @@ class Presenter {
    * @return {HTMLElement} progressBar
    */
   circularProgress(
-      value,
-      size = 60,
-      loaderOptions = {
-        strokeColor: 'blue',
-        strokeLineColor: '#ededed',
-        centerColor: 'white',
-        valueColor: 'blue'
-      }
+    value,
+    size = 60,
+    loaderOptions = {
+      strokeColor: 'blue',
+      strokeLineColor: '#ededed',
+      centerColor: 'white',
+      valueColor: 'blue',
+    }
   ) {
     const progressBar = document.createElement('div');
     progressBar.classList.add('progress__component');
@@ -304,14 +304,17 @@ class Presenter {
 
     const progress = setInterval(() => {
       progressBarValue.textContent = `${incrementer}%`;
-      progressBar.setAttribute('style', `
+      progressBar.setAttribute(
+        'style',
+        `
         background:
           conic-gradient(
             ${loaderOptions.strokeColor}
             ${incrementer * 3.6}deg,
             ${loaderOptions.strokeLineColor} 0deg
           );
-      `.trim());
+      `.trim()
+      );
 
       if (incrementer >= _value) {
         clearInterval(progress);
@@ -345,10 +348,7 @@ class Presenter {
    * Specify the card link
    * @return {HTMLElement}
    */
-  card(
-      data,
-      link = '#'
-  ) {
+  card(data, link = '#') {
     // Extract needed data from `data`
     const {
       // id,
@@ -356,7 +356,7 @@ class Presenter {
       title,
       description,
       date,
-      tasks
+      tasks,
     } = data;
 
     const cardContainer = document.createElement('a');
@@ -448,8 +448,8 @@ class Presenter {
 
     const _dueDate = document.createElement('p');
     const _date = this.convertDateIntoConsumableString(
-        date,
-        this.customMonthNames()
+      date,
+      this.customMonthNames()
     );
 
     _dueDate.textContent = _date;
@@ -470,7 +470,7 @@ class Presenter {
       // console.log(countUndoneTasks);
       // console.log(countDoneTasks);
 
-      const setValueToProgress = countDoneTasks / tasks.length * 100;
+      const setValueToProgress = (countDoneTasks / tasks.length) * 100;
       progressValue = setValueToProgress;
     }
 
@@ -482,9 +482,7 @@ class Presenter {
     return cardContainer;
   }
 
-  detail(
-      data
-  ) {
+  detail(data) {
     /*
       {
         id: Number(id),
@@ -496,21 +494,16 @@ class Presenter {
       }
     */
 
-    const {
-      id,
-      createdAt,
-      title,
-      description,
-      date,
-      tasks
-    } = data;
+    const { id, createdAt, title, description, date, tasks } = data;
 
     const cardContainer = document.createElement('div');
     cardContainer.classList.add('detail');
 
     const makeTimeString = createdAt.split('-');
     const makeTimeNumber = new Date(
-        makeTimeString[2], makeTimeString[1] - 1, makeTimeString[0]
+      makeTimeString[2],
+      makeTimeString[1] - 1,
+      makeTimeString[0]
     );
 
     cardContainer.setAttribute('created-at', makeTimeNumber.getTime());
@@ -798,8 +791,8 @@ class Presenter {
 
     const _dueDate = document.createElement('p');
     const _date = this.convertDateIntoConsumableString(
-        date,
-        this.customMonthNames()
+      date,
+      this.customMonthNames()
     );
 
     _dueDate.textContent = _date;
@@ -817,7 +810,7 @@ class Presenter {
     if (tasks.length !== 0) {
       const countDoneTasks = tasks.filter((task) => task.isDone).length;
 
-      const setValueToProgress = countDoneTasks / tasks.length * 100;
+      const setValueToProgress = (countDoneTasks / tasks.length) * 100;
       progressValue = setValueToProgress;
     }
 
@@ -857,7 +850,7 @@ class Presenter {
 
           const countDoneTasks = tasks.filter((task) => task.isDone).length;
 
-          const setValueToProgress = countDoneTasks / tasks.length * 100;
+          const setValueToProgress = (countDoneTasks / tasks.length) * 100;
           progressValue = setValueToProgress;
         });
 
@@ -972,7 +965,7 @@ class Presenter {
           icon: 'error',
           title: 'Limit!',
           text: `Maximum item limit reached:
-            ${inputsContainer.childElementCount} items.`.replace(/\s+/g, ' ')
+            ${inputsContainer.childElementCount} items.`.replace(/\s+/g, ' '),
         });
 
         return false;
@@ -1076,13 +1069,13 @@ class Presenter {
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire(
-              'Task Deleted!',
-              'The selected task has been deleted.',
-              'success'
+            'Task Deleted!',
+            'The selected task has been deleted.',
+            'success'
           );
 
           if (this.controller) {
@@ -1106,16 +1099,17 @@ class Presenter {
       // console.log(getInputsValue);
       // return;
 
-      const inputsValue = getInputsValue.map((input) => input.value)
-          .filter((value) => value !== '')
-          .map((value) => ({
-            task: value,
-            isDone: false
-          }));
+      const inputsValue = getInputsValue
+        .map((input) => input.value)
+        .filter((value) => value !== '')
+        .map((value) => ({
+          task: value,
+          isDone: false,
+        }));
 
       const mergeData = [...currentData, ...inputsValue];
-      const filterData = getInputsValue.length === 0 ?
-          [] : _.uniqBy(mergeData, 'task');
+      const filterData =
+        getInputsValue.length === 0 ? [] : _.uniqBy(mergeData, 'task');
 
       // Debugging purpose-only
       // console.log(filterData);
@@ -1126,10 +1120,12 @@ class Presenter {
         title: titleInput.value,
         description: descriptionInput.value,
         date: new Date(dateInput.value)
-            .toLocaleDateString('en-GB').split('/').join('-'),
+          .toLocaleDateString('en-GB')
+          .split('/')
+          .join('-'),
         // The result is taken from merging previous data and newly
         // added data in the edit session.
-        tasks: filterData
+        tasks: filterData,
       };
 
       // Debugging purpose-only
@@ -1143,7 +1139,7 @@ class Presenter {
         Swal.fire({
           icon: 'success',
           title: 'Updated Successfully',
-          text: 'Your data has been saved in the data storage.'
+          text: 'Your data has been saved in the data storage.',
         });
       } else {
         console.warn('Please set the controller first to pass the data.');
@@ -1153,7 +1149,7 @@ class Presenter {
     cardContainer.appendChild(taskOptions);
 
     return cardContainer;
-  };
+  }
 
   /**
    * Handles add data form.
@@ -1183,7 +1179,7 @@ class Presenter {
     multipleInputsQuery,
     btnAddInput,
     btnRemoveInput,
-    inputClassName = ''
+    inputClassName = '',
   }) {
     if (!(form instanceof HTMLFormElement)) {
       console.error('Not valid HTMLFormElement is being passed!');
@@ -1243,7 +1239,7 @@ class Presenter {
           icon: 'error',
           title: 'Limit!',
           text: `Maximum item limit reached:
-            ${inputsContainer.childElementCount} items.`.replace(/\s+/g, ' ')
+            ${inputsContainer.childElementCount} items.`.replace(/\s+/g, ' '),
         });
 
         return false;
@@ -1254,8 +1250,8 @@ class Presenter {
         newInputElement.type = 'text';
 
         const string = _query;
-        const start = string.indexOf('\'') + 1;
-        const end = string.lastIndexOf('\'');
+        const start = string.indexOf("'") + 1;
+        const end = string.lastIndexOf("'");
         const value = string.substring(start, end);
         newInputElement.name = value;
 
@@ -1280,12 +1276,13 @@ class Presenter {
       const _descriptionValue = _description.value;
       const _dateValue = _date.value;
       const _inputs = Array.from(document.querySelectorAll(_query));
-      const _inputsValue = _inputs.map((input) => input.value)
-          .filter((value) => value !== '')
-          .map((value) => ({
-            task: value,
-            isDone: false
-          }));
+      const _inputsValue = _inputs
+        .map((input) => input.value)
+        .filter((value) => value !== '')
+        .map((value) => ({
+          task: value,
+          isDone: false,
+        }));
 
       /**
        * Return random number between 1 - 99999
@@ -1295,7 +1292,7 @@ class Presenter {
         const minId = 1;
         const maxId = 99999;
         const combineMinMax = Math.floor(
-            Math.random() * (maxId - minId + 1) + minId
+          Math.random() * (maxId - minId + 1) + minId
         );
         const timeStamp = Number(new Date());
         const id = Number(combineMinMax + timeStamp);
@@ -1306,14 +1303,15 @@ class Presenter {
       const objectize = {
         id: generateId(),
         // createdAt: DD-MM-YYYY
-        createdAt: new Date()
-            .toLocaleDateString('en-GB').split('/').join('-'),
+        createdAt: new Date().toLocaleDateString('en-GB').split('/').join('-'),
         title: _titleValue,
         description: _descriptionValue,
         // date: DD-MM-YYYY
         date: new Date(_dateValue)
-            .toLocaleDateString('en-GB').split('/').join('-'),
-        tasks: _inputsValue
+          .toLocaleDateString('en-GB')
+          .split('/')
+          .join('-'),
+        tasks: _inputsValue,
       };
 
       // Debugging purpose-only
@@ -1326,14 +1324,14 @@ class Presenter {
 
         Swal.fire({
           icon: 'success',
-          title: 'Added Successfully',
-          text: 'Your data has been saved in the data storage.'
+          title: 'New Task Added Successfully',
+          text: 'Your newest task has been saved in the data storage.',
         });
       } else {
         console.warn('Please set the controller first to pass the data.');
       }
     });
   }
-};
+}
 
 export default Presenter;
