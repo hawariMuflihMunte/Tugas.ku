@@ -1,9 +1,8 @@
-import storageManagement from '../../utils/storageManagement';
-import createCard from '../../utils/card';
-import FormTask from '../../utils/FormTask';
-import TaskList from '../../utils/TaskList';
 import CONFIG from '../../global/config';
-import Drawer from '../../utils/drawer';
+import Backlog from '../../classes/Backlog';
+import Presenter from '../../classes/Presenter';
+import Controller from '../../classes/Controller';
+import Drawer from '../../classes/UtilsDrawer';
 
 const Dashboard = {
   async render() {
@@ -72,18 +71,18 @@ const Dashboard = {
                           aria-label="Title"
                           aria-describedby="title-input" />
                       </div>
-                      <div class="input-group mb-3">
+                      <div class="input-group mb-3 d-flex w-100">
                         <button
                           type="button"
                           id="add-task-item"
-                          class="btn btn-outline-warning">
+                          class="btn btn-outline-warning flex-fill">
                           <span
                             class="material-symbols-sharp">add</span> Task
                         </button>
                         <button
                           type="button"
                           id="remove-task-item"
-                          class="btn btn-outline-warning">
+                          class="btn btn-outline-warning flex-fill">
                           <span
                             class="material-symbols-sharp">remove</span> Task
                         </button>
@@ -127,7 +126,7 @@ const Dashboard = {
           </div>
           <!-- End Add Task -->
 
-          <div id="data-list"></div>
+          <section id="data-list"></section>
         </section>
       </main>
     `.trim();
@@ -136,119 +135,26 @@ const Dashboard = {
   async next() {
     Drawer.renderDrawer();
 
-    const taskListContainer = document.getElementById('task-items');
-    const taskListAddBtn = document.getElementById('add-task-item');
-    const taskListRemoveBtn = document.getElementById('remove-task-item');
-
-    const tl = TaskList.init({
-      container: taskListContainer,
-      classNames: [
-        'form-control',
-        'mb-2'
-      ],
-      placeholder: 'Task'
+    const backlog = new Backlog(CONFIG.APP_LOCAL_STORAGE_KEY);
+    const presenter = new Presenter({
+      listContainer: document.getElementById('data-list')
     });
+    const controller = new Controller(backlog, presenter);
+    controller.renderList();
 
-    // Add task item
-    taskListAddBtn.addEventListener('click', () => {
-      tl.addItem();
+    presenter.setController(controller);
+
+    presenter.formAddData({
+      form: document.getElementById('add-task'),
+      title: document.getElementById('title'),
+      description: document.getElementById('description'),
+      date: document.getElementById('due-date'),
+      inputsContainer: document.getElementById('task-items'),
+      multipleInputsQuery: 'input[name=\'task\']',
+      btnAddInput: document.getElementById('add-task-item'),
+      btnRemoveInput: document.getElementById('remove-task-item'),
+      inputClassName: 'form-control mb-2'
     });
-
-    // Remove task item
-    taskListRemoveBtn.addEventListener('click', () => {
-      tl.removeItem();
-    });
-
-    // Add Data
-    const taskFormContainer = document.getElementById('add-task');
-    taskFormContainer.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const _tasks = taskListContainer.childNodes;
-      const _tasksArray = [..._tasks];
-      const tasks = _tasksArray
-          .map((task) => task.value)
-          .filter((value) => value !== '')
-          .map((value) => ({
-            task: value,
-            isDone: false
-          }));
-      /*
-      Convert Array value into Object:
-      ```javascript
-      {
-        task: value,
-        isDone: false
-      }
-      ```
-      isDone value is initialized to false.
-      */
-
-      const taskForm = new FormTask({
-        container: taskFormContainer,
-        title: document.getElementById('title').value,
-        description: document.getElementById('description').value,
-        date: document.getElementById('due-date').value,
-        tasks: tasks
-      });
-
-      taskForm.formReset();
-
-      const taskData = taskForm.createTaskObject();
-
-      console.log(taskData);
-
-      const currentData = storageManagement
-          .loadLocal(CONFIG.APP_LOCAL_STORAGE_KEY);
-      console.log(currentData);
-
-      /*
-        Since `false` is occur when validation error is true,
-        then filter data using this logic.
-      */
-      if (taskData != false) {
-        currentData.push(taskData);
-      }
-
-      storageManagement.saveLocal(CONFIG.APP_LOCAL_STORAGE_KEY, currentData);
-
-      // Close form (by clicking close button)
-      document.getElementById('cancel-add-task')
-          .dispatchEvent(new Event('click'));
-
-      dataList.dispatchEvent(new Event(CONFIG.DATA_LIST_RENDER));
-    });
-
-    // Render Data List
-    const dataList = document.getElementById('data-list');
-    dataList.addEventListener(CONFIG.DATA_LIST_RENDER, (event) => {
-      event.stopImmediatePropagation();
-
-      // Clear element first before injecting data
-      dataList.innerHTML = '';
-
-      const dataTask = storageManagement
-          .loadLocal(CONFIG.APP_LOCAL_STORAGE_KEY);
-
-      // console.log(dataTask);
-
-      if (dataTask.length !== 0) {
-        dataTask.forEach((data) => {
-          const card = createCard(
-              data,
-              `/#/details/${data.id}`
-          );
-
-          dataList.appendChild(card);
-        });
-      } else {
-        const message = document.createElement('span');
-        message.textContent = '-- No Data --';
-
-        dataList.appendChild(message);
-      }
-    });
-    dataList.dispatchEvent(new Event(CONFIG.DATA_LIST_RENDER));
   }
 };
 

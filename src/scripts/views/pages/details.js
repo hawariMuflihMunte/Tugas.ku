@@ -1,8 +1,9 @@
-import urlParser from '../../routes/urlParser';
-import storageManagement from '../../utils/storageManagement';
 import CONFIG from '../../global/config';
-import detail from '../../utils/detail';
-import Drawer from '../../utils/drawer';
+import UrlParser from '../../routes/UrlParser';
+import Backlog from '../../classes/Backlog';
+import Presenter from '../../classes/Presenter';
+import Controller from '../../classes/Controller';
+import Drawer from '../../classes/UtilsDrawer';
 
 const Details = {
   async render() {
@@ -19,43 +20,24 @@ const Details = {
   },
 
   async next() {
+    const urlParser = new UrlParser();
+
     Drawer.renderDrawer();
 
     const url = urlParser.parseActiveUrlWithoutCombiner();
     const getId = url.id; // Get id from URL param
+    const id = Number(parseInt(getId));
     // const getResource = url.resource;
     // const getVerb = url.verb;
 
-    // Render Data List
-    const dataList = document.getElementById('data-list');
-    dataList.addEventListener(CONFIG.DATA_LIST_RENDER, (event) => {
-      event.stopImmediatePropagation();
-
-      // Clear element first before injecting data
-      dataList.innerHTML = '';
-
-      const dataTask = storageManagement
-          .loadLocal(CONFIG.APP_LOCAL_STORAGE_KEY);
-
-      const task = dataTask
-          .find((task) => task.id === Number(getId));
-
-      if (task) {
-        console.log('found: ', task);
-      } else {
-        console.log('not found');
-      }
-
-      if (task) {
-        const card = detail(
-            dataList,
-            task
-        );
-
-        dataList.appendChild(card);
-      }
+    const backlog = new Backlog(CONFIG.APP_LOCAL_STORAGE_KEY);
+    const presenter = new Presenter({
+      listContainer: document.getElementById('data-list')
     });
-    dataList.dispatchEvent(new Event(CONFIG.DATA_LIST_RENDER));
+    const controller = new Controller(backlog, presenter);
+    controller.renderDetail(id);
+
+    presenter.setController(controller);
   }
 };
 

@@ -1,8 +1,6 @@
-import urlParser from '../routes/urlParser';
+import UrlParser from '../routes/UrlParser';
+import Utils from '../classes/Utils';
 import routes from '../routes/routes';
-import storageManagement from '../utils/storageManagement';
-import CONFIG from '../global/config';
-import loader from '../utils/loader';
 
 /**
  * Initialize application
@@ -19,17 +17,13 @@ class App {
     this._app = app;
   }
 
-  // eslint-disable-next-line require-jsdoc
   async render() {
-    this._app.innerHTML = loader(true);
+    const urlParser = new UrlParser();
+
+    this._app.innerHTML = Utils.loader(true);
 
     const url = urlParser.parseActiveUrlWithCombiner();
     const page = routes[url];
-
-    // Init localStorage with `global.CONFIG.key`
-    if (storageManagement.loadLocal(CONFIG.APP_LOCAL_STORAGE_KEY) === null) {
-      storageManagement.saveLocal(CONFIG.APP_LOCAL_STORAGE_KEY, []);
-    }
 
     const loadComplete = new Event('load-complete');
 
@@ -43,7 +37,7 @@ class App {
 
     setTimeout(() => {
       document.dispatchEvent(loadComplete);
-    }, 10);
+    }, 400);
   }
 };
 

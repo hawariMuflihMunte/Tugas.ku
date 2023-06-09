@@ -1,8 +1,10 @@
-const Drawer = {
+import Utils from './Utils';
+
+class Drawer extends Utils {
   /**
    * @return {string}
    */
-  renderInterface() {
+  static renderInterface() {
     return `
       <nav class="navigation-custom">
         <a href="/#/dashboard">Tugas.ku</a>
@@ -19,12 +21,12 @@ const Drawer = {
         </ul>
       </nav>
     `.trim();
-  },
+  }
 
   /**
    * @function void
    */
-  renderDrawer() {
+  static renderDrawer() {
     document.querySelector('.navigation-custom-drawer')
         .addEventListener('click', (event) => {
           event.stopImmediatePropagation();
