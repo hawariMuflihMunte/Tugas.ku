@@ -1081,7 +1081,7 @@ class Presenter {
         if (result.isConfirmed) {
           Swal.fire(
               'Deleted!',
-              'Your file has been deleted.',
+              'Your data has been deleted.',
               'success'
           );
 
