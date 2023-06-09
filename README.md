@@ -48,7 +48,7 @@ npm run start:prod
 npm run serve
 ```
 
-4. Jika kamu ingin melakukan _build_ sekaligus menghidupkan `http-server` setelah build, kamu dapat melakukan
+4. Jika kamu ingin melakukan _build_ sekaligus menghidupkan `http-server` setelah build, kamu dapat melakukan.
 
 ```bash
 npm run serve:prod
@@ -57,3 +57,9 @@ npm run serve:prod
 5. Selengkapnya dapat dilihat di `package.json` pada bagian `"scripts"`.
 
 ---
+
+## Deskripsi
+
+Kami mengutamakan performa kecepatan aplikasi sehingga JavaScript murni menjadi pilihan kami sebagai tech stack utama pada proyek ini.
+
+Selain itu, aplikasi "Tugas.ku" dapat dijalankan secara offline dengan bantuan teknologi _**Progressive Web Apps**_. Untuk dapat menyimpan data yang diinput oleh pengguna, kami memanfaatkan Web Storage API. Dengan bantuan `localStorage` kami dapat mengelola data yang diinput oleh pengguna.
