@@ -16,8 +16,9 @@ Scenario('Add a New Task', async ({I}) => {
   I.waitForElement('div.modal-content');
 
   I.say('I am going to input the Task Title');
-  I.seeElement('input#title');
-  I.fillField('input#title', 'Task Title Testing');
+  I.seeElement(locate('input#title'));
+  I.clearField('input#title');
+  I.fillField(locate('input#title'), 'Task Title Testing');
 
   I.say('I am going to add a Sub-task');
   I.click(locate('button#add-task-item'));
