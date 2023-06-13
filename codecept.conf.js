@@ -14,7 +14,8 @@ exports.config = {
     Puppeteer: {
       url: 'http://127.0.0.1:5000',
       show: true,
-      windowSize: '1200x900'
+      windowSize: '1200x900',
+      restart: false
     }
   },
   include: {
