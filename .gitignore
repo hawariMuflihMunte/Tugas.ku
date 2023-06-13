@@ -5,4 +5,5 @@
 # Folder
 node_modules
 dist
+e2e/outputs
 # e2e
