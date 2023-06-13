@@ -8,6 +8,9 @@ Before(({I}) => {
 });
 
 Scenario('Add a New Task', async ({I}) => {
+  /**
+   * Add a New Task
+   */
   I.say('I am going to wait for Add New Task button to render, and then click it.');
   I.waitForElement('button[title="add task"]');
   I.click(locate('button[title="add task"]'));
@@ -27,11 +30,7 @@ Scenario('Add a New Task', async ({I}) => {
 
   I.say('I am going to input the Task Description');
   I.seeElement(locate('textarea#description'));
-  I.fillField(locate('textarea#description'), `
-    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Ipsam, possimus? Doloribus aspernatur,
-    id explicabo eius nulla corporis qui labore sequi.
-  `.replace(/\s+/g, ' '));
+  I.fillField(locate('textarea#description'), `Task Description Testing`.replace(/\s+/g, ' '));
 
   const today = new Date();
   const year = today.getFullYear();
@@ -53,3 +52,10 @@ Scenario('Add a New Task', async ({I}) => {
   I.seeElement(locate('button[data-bs-dismiss=\'modal\']'));
   I.click(locate('button[data-bs-dismiss=\'modal\']'));
 });
+
+Scenario('Read The Recently Added Task and Check it\'s Data Validity', async ({I}) => {
+  I.say('I expect to see a card of the recently added task');
+  I.waitForElement('a.card-custom');
+  I.seeElement('a.card-custom');
+});
+
