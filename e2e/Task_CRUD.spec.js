@@ -74,7 +74,7 @@ Scenario('Read The Recently Added Task and Check it`s Data Validity', async ({I}
   const subTask = await I.grabTextFrom('li.detail__task-list');
   assert.equal(subTask, `Dummy Sub-Task`);
 
-  I.say('I am going to check if the Sub-Task state is valid');
+  I.say('I am going to check if the Sub-Task completion status is valid');
   const subTaskState = await I.grabAttributeFrom('li.detail__task-list', 'state');
   assert.equal(subTaskState, 'undone');
 
@@ -105,14 +105,6 @@ Scenario('Update the Task data and progress', async ({I}) => {
   I.seeElement('input#title');
   I.clearField('input#title');
   I.fillField('input#title', 'Updated Dummy Task Title');
-
-  // I.say('I am going to update the existing Sub-Task');
-  // const existingSubTask = locate('input[type="text"]')
-  //   .inside('div.form-input-column')
-  //   .first();
-  // I.seeElement(existingSubTask);
-  // I.clearField(existingSubTask);
-  // I.fillField(existingSubTask, 'Updated Existing Dummy Sub-Task');
 
   I.say('I am going to add a new Sub-Task');
   I.seeElement('#addItem');
@@ -155,4 +147,51 @@ Scenario('Update the Task data and progress', async ({I}) => {
   I.seeElement('a[href="/#/dashboard"]');
   I.click('a[href="/#/dashboard"]');
 });
+
+Feature('Render Recently Updated Task');
+Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({I}) => {
+    I.say('I expect to see a card element of the recently added task, and then click it');
+    I.waitForElement('a.card-custom');
+    I.seeElement('a.card-custom');
+    I.click('a.card-custom');
+
+    I.say('I expect to see the Task Detail card element');
+    I.waitForElement('section#data-list');
+    I.seeElement('section#data-list');
+
+    I.say('I am going to check if the Task Title is valid');
+    const taskTitle = await I.grabTextFrom('h3.detail__title');
+    assert.equal(taskTitle, `Updated Dummy Task Title`.toUpperCase());
+
+    I.say('I am going to check if the Task Description is valid');
+    const taskDescription = await I.grabTextFrom('p.detail__description');
+    assert.equal(taskDescription, `Updated Dummy Task Description`);
+
+    I.say('I am going to check if the Task Due Date is valid');
+    const taskDueDate = await I.grabTextFrom('p.detail__date');
+    assert.equal(taskDueDate, `12 November 2042`);
+
+    const subTaskListElement = await locate('li.detail__task-list');
+
+    I.say('I am going to check if these Sub-Tasks are valid');
+    const subTask = await I.grabTextFrom(subTaskListElement.first());
+    assert.equal(subTask, `Dummy Sub-Task`);
+    const newSubTask = await I.grabTextFrom(subTaskListElement.last());
+    assert.equal(newSubTask, `New Dummy Sub-Task`);
+
+    I.say('I am going to check if these Sub-Tasks completion status are valid');
+    const subTaskState = await I.grabAttributeFrom(subTaskListElement.first(), 'state');
+    assert.equal(subTaskState, 'done');
+    const newSubTaskState = await I.grabAttributeFrom(subTaskListElement.last(), 'state');
+    assert.equal(newSubTaskState, 'undone');
+
+    I.say('I am going to check if the Task Progress is valid');
+    const taskProgress = await I.grabTextFrom('span.progress__value');
+    assert.equal(taskProgress, `50%`);
+
+    I.say('I am going to close the Task Detail card and get back to Dashboard page');
+    I.seeElement('a[href="/#/dashboard"]');
+    I.click('a[href="/#/dashboard"]');
+  }
+);
 
