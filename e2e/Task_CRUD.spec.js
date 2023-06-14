@@ -2,7 +2,6 @@
 /* eslint-disable max-len */
 /* eslint-disable linebreak-style */
 /* eslint-disable new-cap */
-const assert = require('assert');
 
 Feature('Create New Task');
 Before(({I}) => {
@@ -119,7 +118,7 @@ Scenario('Update the Task data and progress', async ({I}) => {
   I.say('I am going to update the Task Due Date');
   I.seeElement('input#date');
   I.clearField('input#date');
-  I.fillField('input#date', '12-11-2042');
+  I.fillField('input#date', '12-12-2042');
 
   I.say('I am going to click the Update button');
   I.seeElement(locate('button[type="submit"]').inside('form#edit-form'));
@@ -146,50 +145,41 @@ Scenario('Update the Task data and progress', async ({I}) => {
 
 Feature('Render Recently Updated Task');
 Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({I}) => {
-    I.say('I expect to see a card element of the recently updated task, and then click it');
-    I.waitForElement('a.card-custom');
-    I.seeElement('a.card-custom');
-    I.click('a.card-custom');
+  I.say('I expect to see a card element of the recently updated task, and then click it');
+  I.waitForElement('a.card-custom');
+  I.seeElement('a.card-custom');
+  I.click('a.card-custom');
 
-    I.say('I expect to see the Task Detail card element');
-    I.waitForElement('section#data-list');
-    I.seeElement('section#data-list');
+  I.say('I expect to see the Task Detail card element');
+  I.waitForElement('section#data-list');
+  I.seeElement('section#data-list');
 
-    I.say('I am going to check if the Task Title is valid');
-    const taskTitle = await I.grabTextFrom('h3.detail__title');
-    assert.equal(taskTitle, `Updated Dummy Task Title`.toUpperCase());
+  I.say('I am going to check if the Task Title is valid');
+  I.seeElement(locate('h3.detail__title').withText(`Updated Dummy Task Title`.toUpperCase()));
 
-    I.say('I am going to check if the Task Description is valid');
-    const taskDescription = await I.grabTextFrom('p.detail__description');
-    assert.equal(taskDescription, `Updated Dummy Task Description`);
+  I.say('I am going to check if the Task Description is valid');
+  I.seeElement(locate('p.detail__description').withText(`Updated Dummy Task Description`));
 
-    I.say('I am going to check if the Task Due Date is valid');
-    const taskDueDate = await I.grabTextFrom('p.detail__date');
-    assert.equal(taskDueDate, `12 November 2042`);
+  I.say('I am going to check if the Task Due Date is valid');
+  I.seeElement(locate('p.detail__date').withText(`12 Desember 2042`));
 
-    const subTaskListElement = await locate('li.detail__task-list');
+  const subTaskListElement = await locate('li.detail__task-list');
 
-    I.say('I am going to check if all the Sub-Tasks are valid');
-    const subTask = await I.grabTextFrom(subTaskListElement.first());
-    assert.equal(subTask, `Dummy Sub-Task`);
-    const newSubTask = await I.grabTextFrom(subTaskListElement.last());
-    assert.equal(newSubTask, `New Dummy Sub-Task`);
+  I.say('I am going to check if all the Sub-Tasks are valid');
+  I.seeElement(locate(subTaskListElement.first()).withText(`Dummy Sub-Task`));
+  I.seeElement(locate(subTaskListElement.last()).withText(`New Dummy Sub-Task`));
 
-    I.say('I am going to check if all the Sub-Tasks completion status are valid');
-    const subTaskState = await I.grabAttributeFrom(subTaskListElement.first(), 'state');
-    assert.equal(subTaskState, 'done');
-    const newSubTaskState = await I.grabAttributeFrom(subTaskListElement.last(), 'state');
-    assert.equal(newSubTaskState, 'undone');
+  I.say('I am going to check if all the Sub-Tasks completion status are valid');
+  I.seeElement(locate(subTaskListElement.first()).withAttr({state: 'done'}));
+  I.seeElement(locate(subTaskListElement.last()).withAttr({state: 'undone'}));
 
-    I.say('I am going to check if the Task Progress is valid');
-    const taskProgress = await I.grabTextFrom('span.progress__value');
-    assert.equal(taskProgress, `50%`);
+  I.say('I am going to check if the Task Progress is valid');
+  I.seeElement(locate('span.progress__value').withText(`50%`));
 
-    I.say('I am going to close the Task Detail card and get back to Dashboard page');
-    I.seeElement('a[href="/#/dashboard"]');
-    I.click('a[href="/#/dashboard"]');
-  }
-);
+  I.say('I am going to close the Task Detail card and get back to Dashboard page');
+  I.seeElement('a[href="/#/dashboard"]');
+  I.click('a[href="/#/dashboard"]');
+});
 
 Feature('Delete Task');
 Scenario('Delete the existing task', async ({I}) => {
