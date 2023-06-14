@@ -39,6 +39,8 @@ Scenario('Add a New Task', async ({I}) => {
   I.pressKey('Enter');
 
   I.say('I expect to see a succesful message modal and then close it');
+  I.waitForElement(locate('h2#swal2-title').withText('New Task Added!'));
+  I.seeElement(locate('h2#swal2-title').withText('New Task Added!'));
   I.seeElement(locate('.swal2-confirm'));
   I.click(locate('.swal2-confirm'));
 
