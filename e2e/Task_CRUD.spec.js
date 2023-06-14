@@ -150,7 +150,7 @@ Scenario('Update the Task data and progress', async ({I}) => {
 
 Feature('Render Recently Updated Task');
 Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({I}) => {
-    I.say('I expect to see a card element of the recently added task, and then click it');
+    I.say('I expect to see a card element of the recently updated task, and then click it');
     I.waitForElement('a.card-custom');
     I.seeElement('a.card-custom');
     I.click('a.card-custom');
@@ -173,13 +173,13 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
 
     const subTaskListElement = await locate('li.detail__task-list');
 
-    I.say('I am going to check if these Sub-Tasks are valid');
+    I.say('I am going to check if all the Sub-Tasks are valid');
     const subTask = await I.grabTextFrom(subTaskListElement.first());
     assert.equal(subTask, `Dummy Sub-Task`);
     const newSubTask = await I.grabTextFrom(subTaskListElement.last());
     assert.equal(newSubTask, `New Dummy Sub-Task`);
 
-    I.say('I am going to check if these Sub-Tasks completion status are valid');
+    I.say('I am going to check if all the Sub-Tasks completion status are valid');
     const subTaskState = await I.grabAttributeFrom(subTaskListElement.first(), 'state');
     assert.equal(subTaskState, 'done');
     const newSubTaskState = await I.grabAttributeFrom(subTaskListElement.last(), 'state');
@@ -195,3 +195,29 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
   }
 );
 
+Feature('Delete Existing Task');
+Scenario('Delete the existing task', async ({I}) => {
+  I.say('I expect to see the card element of a task, and then click it');
+  I.waitForElement('a.card-custom');
+  I.seeElement('a.card-custom');
+  I.click('a.card-custom');
+
+  I.say('I expect to see the Task Detail card element');
+  I.waitForElement('section#data-list');
+  I.seeElement('section#data-list');
+
+  I.say('I am going to click the Delete button');
+  I.seeElement('button#delete');
+  I.click('button#delete');
+
+  I.say('I am going to confirm to delete the Task');
+  I.seeElement('button.swal2-confirm');
+  I.click('button.swal2-confirm');
+
+  I.say('I expect to see a successful message modal, and then close it');
+  I.waitForElement(locate('h2#swal2-title').withText('Task Deleted!'));
+  I.seeElement(locate('h2#swal2-title').withText('Task Deleted!'));
+  I.seeElement('button.swal2-confirm');
+  I.click('button.swal2-confirm');
+  pause();
+});
