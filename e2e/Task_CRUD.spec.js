@@ -195,7 +195,7 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
   }
 );
 
-Feature('Delete Existing Task');
+Feature('Delete Task');
 Scenario('Delete the existing task', async ({I}) => {
   I.say('I expect to see the card element of a task, and then click it');
   I.waitForElement('a.card-custom');
@@ -219,5 +219,7 @@ Scenario('Delete the existing task', async ({I}) => {
   I.seeElement(locate('h2#swal2-title').withText('Task Deleted!'));
   I.seeElement('button.swal2-confirm');
   I.click('button.swal2-confirm');
-  pause();
+
+  I.say('I expect to see an empty Task List on the dashboard page');
+  I.dontSeeElement(locate('a.card-custom').inside('section#data-list'));
 });
