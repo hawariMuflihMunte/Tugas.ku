@@ -1,16 +1,15 @@
 /* eslint-disable max-len */
 /* eslint-disable linebreak-style */
 /* eslint-disable new-cap */
-Feature('Create, Read, Update and Delete a Task');
+const assert = require('assert');
+
+Feature('Create New Task');
 
 Before(({I}) => {
   I.amOnPage('/#/dashboard');
 });
 
 Scenario('Add a New Task', async ({I}) => {
-  /**
-   * Add a New Task
-   */
   I.say('I am going to wait for Add New Task button to render, and then click it.');
   I.waitForElement('button[title="add task"]');
   I.click(locate('button[title="add task"]'));
@@ -32,14 +31,8 @@ Scenario('Add a New Task', async ({I}) => {
   I.seeElement(locate('textarea#description'));
   I.fillField(locate('textarea#description'), `Task Description Testing`.replace(/\s+/g, ' '));
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  const dueDate = `${day}-${month}-${year}`;
-
   I.say('I am going to input the Task Due-date');
-  I.fillField('#due-date', dueDate);
+  I.fillField('#due-date', `14-06-2023`);
 
   I.say('I am going to add the new Task');
   I.pressKey('Enter');
@@ -53,9 +46,40 @@ Scenario('Add a New Task', async ({I}) => {
   I.click(locate('button[data-bs-dismiss=\'modal\']'));
 });
 
-Scenario('Read The Recently Added Task and Check it\'s Data Validity', async ({I}) => {
-  I.say('I expect to see a card of the recently added task');
+Feature('Render Recently Added Task');
+
+Scenario('Read The Recently Added Task and Check it`s Data Validity', async ({I}) => {
+  I.say('I expect to see a card element of the recently added task, and then click it');
   I.waitForElement('a.card-custom');
   I.seeElement('a.card-custom');
+  I.click('a.card-custom');
+
+  I.say('I expect to see the Task Detail card element');
+  I.waitForElement('section#data-list');
+  I.seeElement('section#data-list');
+
+  I.say('I am going to check if the Task Title is valid');
+  const taskTitle = await I.grabTextFrom('h3.detail__title');
+  assert.equal(taskTitle, `Task Title Testing`.toUpperCase());
+
+  I.say('I am going to check if the Task Description is valid');
+  const taskDescription = await I.grabTextFrom('p.detail__description');
+  assert.equal(taskDescription, `Task Description Testing`);
+
+  I.say('I am going to check if the Task Due Date is valid');
+  const taskDueDate = await I.grabTextFrom('p.detail__date');
+  assert.equal(taskDueDate, `14 Juni 2023`);
+
+  I.say('I am going to check if the Sub-Task is valid');
+  const subTask = await I.grabTextFrom('li.detail__task-list');
+  assert.equal(subTask, `Sub-Task Testing`);
+
+  I.say('I am going to check if the Sub-Task state is valid');
+  const subTaskState = await I.grabAttributeFrom('li.detail__task-list', 'state');
+  assert.equal(subTaskState, 'undone');
+
+  I.say('I am going to check if the Task Progress is valid');
+  const taskProgress = await I.grabTextFrom('span.progress__value');
+  assert.equal(taskProgress, `0%`);
 });
 
