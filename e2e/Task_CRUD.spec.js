@@ -61,28 +61,22 @@ Scenario('Read The Recently Added Task and Check it`s Data Validity', async ({I}
   I.seeElement('section#data-list');
 
   I.say('I am going to check if the Task Title is valid');
-  const taskTitle = await I.grabTextFrom('h3.detail__title');
-  assert.equal(taskTitle, `Dummy Task Title`.toUpperCase());
+  I.seeElement(locate('h3.detail__title').withText(`Dummy Task Title`.toUpperCase()));
 
   I.say('I am going to check if the Task Description is valid');
-  const taskDescription = await I.grabTextFrom('p.detail__description');
-  assert.equal(taskDescription, `Dummy Task Description`);
+  I.seeElement(locate('p.detail__description').withText(`Dummy Task Description`));
 
   I.say('I am going to check if the Task Due Date is valid');
-  const taskDueDate = await I.grabTextFrom('p.detail__date');
-  assert.equal(taskDueDate, `14 Juni 2023`);
+  I.seeElement(locate('p.detail__date').withText(`14 Juni 2023`));
 
   I.say('I am going to check if the Sub-Task is valid');
-  const subTask = await I.grabTextFrom('li.detail__task-list');
-  assert.equal(subTask, `Dummy Sub-Task`);
+  I.seeElement(locate('li.detail__task-list').withText(`Dummy Sub-Task`));
 
   I.say('I am going to check if the Sub-Task completion status is valid');
-  const subTaskState = await I.grabAttributeFrom('li.detail__task-list', 'state');
-  assert.equal(subTaskState, 'undone');
+  I.seeElement(locate('li.detail__task-list').withAttr({state: 'undone'}));
 
   I.say('I am going to check if the Task Progress is valid');
-  const taskProgress = await I.grabTextFrom('span.progress__value');
-  assert.equal(taskProgress, `0%`);
+  I.seeElement(locate('span.progress__value').withText(`0%`));
 
   I.say('I am going to close the Task Detail card and get back to Dashboard page');
   I.seeElement('a[href="/#/dashboard"]');
