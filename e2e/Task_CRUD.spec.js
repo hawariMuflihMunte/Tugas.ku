@@ -83,7 +83,7 @@ Scenario('Read The Recently Added Task and Check it`s Data Validity', async ({I}
   I.click('a[href="/#/dashboard"]');
 });
 
-Feature('Update Existing Task');
+Feature('Update Task');
 Scenario('Update the Task data and progress', async ({I}) => {
   I.say('I expect to see a task card element, and then click it');
   I.waitForElement('a.card-custom');
