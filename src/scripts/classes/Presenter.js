@@ -191,8 +191,7 @@ class Presenter {
     const dateString = dateValue;
     const parts = dateString.split('-');
     const _day = parseInt(parts[0], 10);
-    // Subtract 1 from the month value (months are zero-based)
-    const _month = parseInt(parts[1], 10) - 1;
+    const _month = parseInt(parts[1], 10);
     const _year = parseInt(parts[2], 10);
     const _date = new Date(_year, _month, _day);
 
