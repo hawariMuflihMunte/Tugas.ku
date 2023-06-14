@@ -193,20 +193,14 @@ class Presenter {
     const _day = parseInt(parts[0], 10);
     const _month = parseInt(parts[1], 10);
     const _year = parseInt(parts[2], 10);
-    const _date = new Date(_year, _month, _day);
-
-    const dateObj = new Date(_date.getTime());
-    const day = dateObj.getDate();
-    const monthIndex = dateObj.getMonth();
-    const year = dateObj.getFullYear();
 
     if (monthNames.length === 0) {
-      return `${day} ${monthIndex} ${year}`;
+      return `${_day} ${_month} ${_year}`;
     }
 
     if (monthNames.length !== 0) {
       const _monthNames = monthNames;
-      return `${day} ${_monthNames[monthIndex]} ${year}`;
+      return `${_day} ${_monthNames[_month]} ${_year}`;
     }
   }
 
