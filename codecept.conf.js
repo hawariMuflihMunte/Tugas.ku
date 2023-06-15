@@ -1,4 +1,4 @@
-const { setHeadlessWhen, setCommonPlugins } = require('@codeceptjs/configure');
+const {setHeadlessWhen, setCommonPlugins} = require('@codeceptjs/configure');
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
@@ -9,16 +9,18 @@ setCommonPlugins();
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
   tests: 'e2e/**/*.spec.js',
-  output: './output',
+  output: 'e2e/outputs',
   helpers: {
     Puppeteer: {
       url: 'http://127.0.0.1:5000',
       show: true,
-      windowSize: '1200x900'
+      windowSize: '1200x900',
+      restart: false,
+      keepBrowserState: true
     }
   },
   include: {
     I: './steps_file.js'
   },
   name: 'Tugas.ku'
-}
+};
