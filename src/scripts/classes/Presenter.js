@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import Swal from 'sweetalert2';
 
 class Presenter {
@@ -1086,7 +1086,7 @@ class Presenter {
     taskOptionsModalForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
-      const currentData = tasks;
+      // const currentData = tasks;
       const getInputsValue = Array.from(inputsContainer.childNodes);
 
       // console.log(getInputsValue);
