@@ -156,6 +156,11 @@ const Dashboard = {
       btnRemoveInput: document.getElementById('remove-task-item'),
       inputClassName: 'form-control mb-2'
     });
+
+    const searchButton = document.getElementById('search-button');
+    searchButton.addEventListener('click', () => {
+      controller.searchData();
+    });
   }
 };
 
