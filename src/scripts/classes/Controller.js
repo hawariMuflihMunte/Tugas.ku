@@ -71,16 +71,22 @@ class Controller {
   }
 
   searchData() {
-    const searchQuery = document.getElementById('search-bar').value.trim().toLowerCase();
+    const searchBar = document.getElementById('search-bar');
+    const searchQuery = (searchBar.value).trim().toLowerCase();
     const data = this.backlog.getData();
 
+    const renderSearchResult = (result) => {
+      searchBar.value = '';
+      this.presenter.renderList(result);
+    };
+
     if (!searchQuery) {
-      this.presenter.renderList(data);
+      renderSearchResult(data);
       return false;
     }
 
     const searchResult = data.filter((task) =>
-      task.title.trim().toLowerCase().includes(searchQuery)
+      (task.title.trim().toLowerCase()).includes(searchQuery)
     );
 
     if (searchResult.length === 0) {
@@ -90,10 +96,11 @@ class Controller {
         text: 'We cannot find the task you are looking for. Perhaps it has been deleted, or you can try to use a different search keyword.'
       });
 
+      renderSearchResult(data);
       return false;
     }
 
-    this.presenter.renderList(searchResult);
+    renderSearchResult(searchResult);
     return true;
   }
 };
