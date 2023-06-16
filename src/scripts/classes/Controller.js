@@ -79,8 +79,8 @@ class Controller {
       return false;
     }
 
-    const searchResult = data.filter((dataItem) =>
-      dataItem.title.trim().toLowerCase().includes(searchQuery)
+    const searchResult = data.filter((task) =>
+      task.title.trim().toLowerCase().includes(searchQuery)
     );
 
     if (searchResult.length === 0) {
