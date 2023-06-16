@@ -187,7 +187,7 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
 
 Feature('Search Task');
 Scenario('Search existing task', async ({I}) => {
-  I.say('I am going to search an existing task');
+  I.say('I am going to search an existing Task');
   I.waitForElement('input#search-bar');
   I.seeElement('input#search-bar');
   I.fillField('input#search-bar', 'Updated Dummy Task Title');
@@ -197,6 +197,19 @@ Scenario('Search existing task', async ({I}) => {
   I.waitForElement('a.card-custom');
   I.seeElement('a.card-custom');
   I.seeElement(locate('h3.card-custom__title').withText('Updated Dummy Task Title'.toUpperCase()));
+});
+
+Scenario('Search nonexisting task', async ({I}) => {
+  I.waitForElement('input#search-bar');
+  I.seeElement('input#search-bar');
+  I.fillField('input#search-bar', 'Completely random task');
+  I.click('button#search-button');
+
+  I.say('I expect to see a "Task Not Found" warning message modal, and then close it');
+  I.waitForElement(locate('h2#swal2-title').withText('Task Not Found'));
+  I.seeElement(locate('h2#swal2-title').withText('Task Not Found'));
+  I.seeElement('button.swal2-confirm');
+  I.click('button.swal2-confirm');
 });
 
 Feature('Delete Task');
