@@ -170,7 +170,7 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
   const subTaskListElement = await locate('li.detail__task-list');
 
   I.say('I am going to check if all the Sub-Tasks are valid');
-  I.seeElement(locate(subTaskListElement.first()).withText(`Dummy Sub-Task`));
+  I.seeElement(locate(subTaskListElement.first()).withText(`Updated Dummy Sub-Task`));
   I.seeElement(locate(subTaskListElement.last()).withText(`New Dummy Sub-Task`));
 
   I.say('I am going to check if all the Sub-Tasks completion status are valid');
