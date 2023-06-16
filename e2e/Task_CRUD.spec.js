@@ -185,6 +185,20 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
   I.click('a[href="/#/dashboard"]');
 });
 
+Feature('Search Task');
+Scenario('Search existing task', async ({I}) => {
+  I.say('I am going to search an existing task');
+  I.waitForElement('input#search-bar');
+  I.seeElement('input#search-bar');
+  I.fillField('input#search-bar', 'Updated Dummy Task Title');
+  I.click('button#search-button');
+
+  I.say('I expect to see a card element of the search result');
+  I.waitForElement('a.card-custom');
+  I.seeElement('a.card-custom');
+  I.seeElement(locate('h3.card-custom__title').withText('Updated Dummy Task Title'.toUpperCase()));
+});
+
 Feature('Delete Task');
 Scenario('Delete the existing task', async ({I}) => {
   I.say('I expect to see the card element of a task, and then click it');
