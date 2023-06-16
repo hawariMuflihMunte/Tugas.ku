@@ -101,14 +101,18 @@ Scenario('Update the Task data and progress', async ({I}) => {
   I.clearField('input#title');
   I.fillField('input#title', 'Updated Dummy Task Title');
 
+  const subTask = locate('input[type="text"]').inside('div.form-input-column');
+
+  I.say('I am going to update the first Sub-Task');
+  I.seeElement(subTask.first());
+  I.clearField(subTask.first());
+  I.fillField(subTask.first(), 'Updated Dummy Sub-Task');
+
   I.say('I am going to add a new Sub-Task');
   I.seeElement('#addItem');
   I.click('#addItem');
-  const newSubTask = locate('input[type="text"]')
-    .inside('div.form-input-column')
-    .last();
-  I.seeElement(newSubTask);
-  I.fillField(newSubTask, 'New Dummy Sub-Task');
+  I.seeElement(subTask.last());
+  I.fillField(subTask.last(), 'New Dummy Sub-Task');
 
   I.say('I am going to update the Task Description');
   I.seeElement('textarea#description');
