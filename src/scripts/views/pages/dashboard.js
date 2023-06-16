@@ -15,6 +15,7 @@ const Dashboard = {
           </span>
           <input
             type="text"
+            id="search-bar"
             class="form-control"
             placeholder="Search task"
             aria-label="Search task"
@@ -22,7 +23,7 @@ const Dashboard = {
             />
           <button
             type="button"
-            id="search-task"
+            id="search-button"
             class="btn btn-success"
             title="search task">
             <span class="material-symbols-sharp">search_check</span>  
@@ -154,6 +155,11 @@ const Dashboard = {
       btnAddInput: document.getElementById('add-task-item'),
       btnRemoveInput: document.getElementById('remove-task-item'),
       inputClassName: 'form-control mb-2'
+    });
+
+    const searchButton = document.getElementById('search-button');
+    searchButton.addEventListener('click', () => {
+      controller.searchData();
     });
   }
 };
