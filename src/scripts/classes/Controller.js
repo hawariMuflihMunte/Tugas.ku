@@ -1,3 +1,6 @@
+import Swal from "sweetalert2";
+
+/* eslint-disable max-len */
 class Controller {
   /**
    * Init Backlog and Presenter classes.
@@ -12,8 +15,7 @@ class Controller {
 
     if (
       this.backlog != null ||
-      this.backlog != undefined &&
-      this.presenter != null ||
+      (this.backlog != undefined && this.presenter != null) ||
       this.presenter != undefined
     ) {
       const currentLocation = window.location.hash.substring(2);
@@ -66,6 +68,40 @@ class Controller {
     } else {
       console.error('Error while deleting data from data storage.');
     }
+  }
+
+  searchData() {
+    const searchBar = document.getElementById('search-bar');
+    const searchQuery = (searchBar.value).trim().toLowerCase();
+    const data = this.backlog.getData();
+
+    const renderSearchResult = (result) => {
+      searchBar.value = '';
+      this.presenter.renderList(result);
+    };
+
+    if (!searchQuery) {
+      renderSearchResult(data);
+      return false;
+    }
+
+    const searchResult = data.filter((task) =>
+      (task.title.trim().toLowerCase()).includes(searchQuery)
+    );
+
+    if (searchResult.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Task Not Found',
+        text: 'We cannot find the task you are looking for. Perhaps it has been deleted, or you can try to use a different search keyword.'
+      });
+
+      renderSearchResult(data);
+      return false;
+    }
+
+    renderSearchResult(searchResult);
+    return true;
   }
 };
 
