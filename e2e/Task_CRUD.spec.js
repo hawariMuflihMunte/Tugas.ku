@@ -101,14 +101,18 @@ Scenario('Update the Task data and progress', async ({I}) => {
   I.clearField('input#title');
   I.fillField('input#title', 'Updated Dummy Task Title');
 
+  const subTask = locate('input[type="text"]').inside('div.form-input-column');
+
+  I.say('I am going to update the first Sub-Task');
+  I.seeElement(subTask.first());
+  I.clearField(subTask.first());
+  I.fillField(subTask.first(), 'Updated Dummy Sub-Task');
+
   I.say('I am going to add a new Sub-Task');
   I.seeElement('#addItem');
   I.click('#addItem');
-  const newSubTask = locate('input[type="text"]')
-    .inside('div.form-input-column')
-    .last();
-  I.seeElement(newSubTask);
-  I.fillField(newSubTask, 'New Dummy Sub-Task');
+  I.seeElement(subTask.last());
+  I.fillField(subTask.last(), 'New Dummy Sub-Task');
 
   I.say('I am going to update the Task Description');
   I.seeElement('textarea#description');
@@ -166,7 +170,7 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
   const subTaskListElement = await locate('li.detail__task-list');
 
   I.say('I am going to check if all the Sub-Tasks are valid');
-  I.seeElement(locate(subTaskListElement.first()).withText(`Dummy Sub-Task`));
+  I.seeElement(locate(subTaskListElement.first()).withText(`Updated Dummy Sub-Task`));
   I.seeElement(locate(subTaskListElement.last()).withText(`New Dummy Sub-Task`));
 
   I.say('I am going to check if all the Sub-Tasks completion status are valid');
@@ -179,6 +183,33 @@ Scenario('Read The Recently Updated Task and Check it`s Data Validity', async ({
   I.say('I am going to close the Task Detail card and get back to Dashboard page');
   I.seeElement('a[href="/#/dashboard"]');
   I.click('a[href="/#/dashboard"]');
+});
+
+Feature('Search Task');
+Scenario('Search existing task', async ({I}) => {
+  I.say('I am going to search an existing Task');
+  I.waitForElement('input#search-bar');
+  I.seeElement('input#search-bar');
+  I.fillField('input#search-bar', 'Updated Dummy Task Title');
+  I.click('button#search-button');
+
+  I.say('I expect to see a card element of the search result');
+  I.waitForElement('a.card-custom');
+  I.seeElement('a.card-custom');
+  I.seeElement(locate('h3.card-custom__title').withText('Updated Dummy Task Title'.toUpperCase()));
+});
+
+Scenario('Search nonexisting task', async ({I}) => {
+  I.waitForElement('input#search-bar');
+  I.seeElement('input#search-bar');
+  I.fillField('input#search-bar', 'Completely random task');
+  I.click('button#search-button');
+
+  I.say('I expect to see a "Task Not Found" warning message modal, and then close it');
+  I.waitForElement(locate('h2#swal2-title').withText('Task Not Found'));
+  I.seeElement(locate('h2#swal2-title').withText('Task Not Found'));
+  I.seeElement('button.swal2-confirm');
+  I.click('button.swal2-confirm');
 });
 
 Feature('Delete Task');
